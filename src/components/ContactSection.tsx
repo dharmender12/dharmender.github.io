@@ -41,9 +41,6 @@ export const ContactSection: React.FC = () => {
       
       {/* Section Title */}
       <div className="text-center space-y-3 mb-12">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-cyan-400 text-xs font-mono uppercase tracking-widest">
-          <Mail className="w-3.5 h-3.5" /> Get In Touch
-        </div>
         <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
           Let’s Build <span className="gradient-text-3d">Together</span>
         </h2>
