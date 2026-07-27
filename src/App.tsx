@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ThreeCanvas } from './components/ThreeCanvas';
+import { CustomCursor } from './components/CustomCursor';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { AboutSection } from './components/AboutSection';
@@ -53,6 +54,9 @@ export default function App() {
 
   return (
     <div className="relative min-h-screen bg-[#070a13] text-slate-100 font-sans selection:bg-cyan-500 selection:text-slate-950">
+      {/* Interactive 3D Custom Cursor */}
+      <CustomCursor />
+
       {/* 3D WebGL Background Scene */}
       <ThreeCanvas />
 
