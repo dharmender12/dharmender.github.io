@@ -54,9 +54,12 @@ export const ProjectsSection: React.FC = () => {
         {filteredProjects.map((proj) => (
           <div
             key={proj.id}
-            className="glass-card rounded-2xl overflow-hidden border border-white/10 flex flex-col justify-between group hover:-translate-y-2 transition-all duration-300 relative"
+            className="glass-card rounded-2xl overflow-hidden border border-white/10 flex flex-col justify-between group hover:-translate-y-2 hover:border-cyan-400/50 hover:shadow-[0_0_25px_rgba(56,189,248,0.25)] transition-all duration-300 relative"
           >
-            <div>
+            {/* Hover ambient radial glow */}
+            <div className="absolute inset-0 bg-gradient-to-b from-cyan-500/10 via-transparent to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0" />
+
+            <div className="relative z-10">
               {/* Card Banner Header */}
               <div className={`h-40 bg-gradient-to-br ${proj.imagePlaceholderGradient} p-5 flex flex-col justify-between relative overflow-hidden`}>
                 <div className="flex items-center justify-between">
@@ -101,7 +104,7 @@ export const ProjectsSection: React.FC = () => {
             </div>
 
             {/* Card Footer with MANDATORY Live Links (Opens in New Tab) */}
-            <div className="p-4 bg-slate-950/80 border-t border-white/5 flex items-center justify-between gap-2">
+            <div className="p-4 bg-slate-950/80 border-t border-white/5 flex items-center justify-between gap-2 relative z-10">
               <button
                 onClick={() => setActiveModalProject(proj)}
                 className="text-xs font-semibold text-slate-300 hover:text-white flex items-center gap-1 cursor-pointer"
