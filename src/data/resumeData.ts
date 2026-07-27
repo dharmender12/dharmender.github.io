@@ -297,7 +297,7 @@ export const PUBLICATIONS: Publication[] = [
     authors: ["Dharmender Thakur", "Research Collaborators"],
     journalOrConference: "Astrophysical Research / Astronomy Publications",
     year: "2026",
-    status: "In Preparation",
+    status: "Published",
     abstract: "Investigating star formation rate densities, neutral hydrogen column densities, and spectroscopic properties of Damped Lyman-Alpha (DLA) absorbers using observational astronomical datasets and machine learning classification workflows.",
     githubUrl: "https://github.com/dharmender12/Star-Formation-in-DLAs",
     scholarUrl: "https://scholar.google.com/citations?user=LUqb9dYAAAAJ&hl=en",

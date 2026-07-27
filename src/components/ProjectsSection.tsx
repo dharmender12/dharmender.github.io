@@ -233,7 +233,7 @@ export const ProjectsSection: React.FC = () => {
             <div className="flex items-center gap-3">
               <div className="w-3 h-3 rounded-full bg-emerald-400 animate-pulse" />
               <p className="text-xs sm:text-sm text-cyan-200">
-                Connected directly to GitHub account <span className="font-mono font-bold text-white">@dharmender12</span>. Any new repository you create on GitHub will automatically appear here!
+                Connected directly to GitHub account <span className="font-mono font-bold text-white">@dharmender12</span>.
               </p>
             </div>
             <a
