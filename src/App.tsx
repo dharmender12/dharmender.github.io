@@ -86,7 +86,7 @@ export default function App() {
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
           <div className="text-center sm:text-left space-y-1">
             <p className="text-sm font-bold text-slate-200">
-              {PERSONAL_INFO.name} — 3D Immersive Portfolio
+              {PERSONAL_INFO.name}
             </p>
             <p className="text-xs text-slate-400">
               Data Scientist | Data Analyst | Full Stack Developer
