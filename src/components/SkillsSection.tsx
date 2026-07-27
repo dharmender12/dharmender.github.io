@@ -87,21 +87,26 @@ export const SkillsSection: React.FC = () => {
               </span>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-3">
               {cat.skills.map((skill, sIdx) => (
-                <div key={sIdx} className="space-y-1.5">
+                <div
+                  key={sIdx}
+                  className="p-3 rounded-2xl bg-slate-950/40 border border-slate-800/60 hover:border-cyan-500/40 hover:bg-slate-800/50 hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300 ease-out hover:shadow-lg hover:shadow-cyan-500/10 group/skill cursor-default space-y-2"
+                >
                   <div className="flex items-center justify-between text-sm">
-                    <span className="font-semibold text-slate-200 flex items-center gap-2">
-                      <CheckCircle className="w-3.5 h-3.5 text-cyan-400 shrink-0" />
+                    <span className="font-semibold text-slate-200 group-hover/skill:text-cyan-300 transition-colors flex items-center gap-2">
+                      <CheckCircle className="w-4 h-4 text-cyan-400 shrink-0 group-hover/skill:scale-110 transition-transform duration-300" />
                       {skill.name}
                     </span>
-                    <span className="font-mono text-xs text-cyan-400">{skill.level}%</span>
+                    <span className="font-mono text-xs font-bold text-cyan-400 group-hover/skill:text-cyan-200 transition-colors">
+                      {skill.level}%
+                    </span>
                   </div>
 
                   {/* Level Bar */}
-                  <div className="w-full h-2.5 bg-slate-950 rounded-full overflow-hidden p-0.5 border border-slate-800">
+                  <div className="w-full h-2.5 bg-slate-950 rounded-full overflow-hidden p-0.5 border border-slate-800/80 group-hover/skill:border-cyan-500/30 transition-colors">
                     <div
-                      className="h-full rounded-full bg-gradient-to-r from-cyan-500 via-indigo-500 to-purple-500 transition-all duration-1000 shadow-[0_0_10px_#38bdf8]"
+                      className="h-full rounded-full bg-gradient-to-r from-cyan-500 via-indigo-500 to-purple-500 transition-all duration-700 group-hover/skill:brightness-125 shadow-[0_0_10px_#38bdf8]"
                       style={{ width: `${skill.level}%` }}
                     />
                   </div>
