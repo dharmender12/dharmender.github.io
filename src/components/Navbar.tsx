@@ -27,6 +27,7 @@ export const Navbar: React.FC<NavbarProps> = ({ activeSection, onNavigate, onOpe
     { id: 'about', label: 'About' },
     { id: 'skills', label: 'Skills' },
     { id: 'projects', label: 'Projects' },
+    { id: 'publications', label: 'Publications' },
     { id: 'contact', label: 'Contact' },
     { id: 'resume', label: 'Resume', isResume: true },
   ];

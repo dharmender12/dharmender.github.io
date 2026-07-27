@@ -1,4 +1,4 @@
-import { Experience, Education, Certification, Achievement, SkillCategory, Project } from '../types/portfolio';
+import { Experience, Education, Certification, Achievement, SkillCategory, Project, Publication } from '../types/portfolio';
 
 export const PERSONAL_INFO = {
   name: "DHARMENDER THAKUR",
@@ -8,6 +8,7 @@ export const PERSONAL_INFO = {
   location: "Shimla, India",
   linkedIn: "https://linkedin.com/in/dharmender-thakur",
   github: "https://github.com/dharmender12/dharmender.github.io",
+  scholarUrl: "https://scholar.google.com/citations?user=LUqb9dYAAAAJ&hl=en",
   summary: "Results-driven Data Scientist, Data Analyst, and Data Engineer with strong expertise in Machine Learning, Deep Learning, Big Data pipelines (PySpark, Spark SQL), Cloud Infrastructure (GCP, Databricks), and Business Analytics (SQL CTEs, Power BI, KPI Dashboards). Experienced in training B.Tech and BCA university students in end-to-end data workflows and conducting scientific statistical research at Indian Institute of Astrophysics (IIA). Currently pursuing a Ph.D. in Astronomy with a solid foundation in large-scale data processing.",
   tagline: "Hey, I'm a Data Scientist",
   profileImage: "/avatar.jpg"
@@ -286,5 +287,20 @@ export const ACHIEVEMENTS: Achievement[] = [
     organization: "SEMS Welfare Foundation",
     period: "06/2026 – 06/2026",
     location: "Online"
+  }
+];
+
+export const PUBLICATIONS: Publication[] = [
+  {
+    id: "pub-1",
+    title: "Star Formation in Damped Lyman-Alpha Systems (DLAs)",
+    authors: ["Dharmender Thakur", "Research Collaborators"],
+    journalOrConference: "Astrophysical Research / Astronomy Publications",
+    year: "2026",
+    status: "In Preparation",
+    abstract: "Investigating star formation rate densities, neutral hydrogen column densities, and spectroscopic properties of Damped Lyman-Alpha (DLA) absorbers using observational astronomical datasets and machine learning classification workflows.",
+    githubUrl: "https://github.com/dharmender12/Star-Formation-in-DLAs",
+    scholarUrl: "https://scholar.google.com/citations?user=LUqb9dYAAAAJ&hl=en",
+    tags: ["Astrophysics", "Star Formation", "DLAs", "Spectral Analysis", "Data Analytics", "Machine Learning"]
   }
 ];

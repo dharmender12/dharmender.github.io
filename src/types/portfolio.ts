@@ -58,3 +58,17 @@ export interface Project {
   imagePlaceholderGradient: string;
   keyFeatures: string[];
 }
+
+export interface Publication {
+  id: string;
+  title: string;
+  authors: string[];
+  journalOrConference: string;
+  year: string;
+  status: 'Published' | 'In Preparation' | 'Under Review' | 'Accepted';
+  abstract: string;
+  githubUrl?: string;
+  scholarUrl?: string;
+  pdfUrl?: string;
+  tags: string[];
+}
