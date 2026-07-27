@@ -1,14 +1,48 @@
 import React, { useState } from 'react';
-import { Cpu, Users, Sparkles, CheckCircle } from 'lucide-react';
+import { Cpu, Users, Sparkles, CheckCircle, Radar as RadarIcon, Award, Activity } from 'lucide-react';
+import { ResponsiveContainer, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Tooltip } from 'recharts';
 import { SKILL_CATEGORIES } from '../data/resumeData';
+
+// Domain proficiency data for the Radar Chart
+const DOMAIN_RADAR_DATA = [
+  { domain: 'Machine Learning', score: 94, fullMark: 100, description: 'Scikit-Learn, ANN, Regression, Classification' },
+  { domain: 'Deep Learning', score: 90, fullMark: 100, description: 'TensorFlow, Keras, Neural Networks' },
+  { domain: 'Big Data & Spark', score: 88, fullMark: 100, description: 'PySpark, Hadoop, Scala, ETL Pipelines' },
+  { domain: 'Cloud & GCP', score: 86, fullMark: 100, description: 'Google Cloud, Databricks, BigQuery' },
+  { domain: 'SQL & Analytics', score: 92, fullMark: 100, description: 'CTEs, Window Functions, Query Tuning' },
+  { domain: 'BI & Power BI', score: 92, fullMark: 100, description: 'DAX, Interactive Dashboards, KPIs' },
+  { domain: 'NLP & Text Mining', score: 90, fullMark: 100, description: 'NLTK, Sentiment Ingestion, TF-IDF' },
+  { domain: 'Scientific Research', score: 95, fullMark: 100, description: 'Astrophysics, Spectral Analysis, DLAs' },
+];
+
+const CustomRadarTooltip = ({ active, payload }: any) => {
+  if (active && payload && payload.length) {
+    const data = payload[0].payload;
+    return (
+      <div className="bg-slate-900/95 border border-cyan-500/50 p-3.5 rounded-2xl shadow-2xl backdrop-blur-md text-xs space-y-1 max-w-xs">
+        <div className="flex items-center justify-between gap-3">
+          <span className="font-bold text-cyan-300 text-sm">{data.domain}</span>
+          <span className="font-mono font-bold px-2 py-0.5 rounded-full bg-cyan-950 text-cyan-400 border border-cyan-500/30">
+            {data.score}%
+          </span>
+        </div>
+        <p className="text-slate-400 text-[11px] leading-tight">{data.description}</p>
+      </div>
+    );
+  }
+  return null;
+};
 
 export const SkillsSection: React.FC = () => {
   const [filter, setFilter] = useState<'all' | 'technical' | 'soft'>('all');
+  const [selectedDomain, setSelectedDomain] = useState<string | null>(null);
 
   const filteredCategories = SKILL_CATEGORIES.filter((cat) => {
     if (filter === 'all') return true;
     return cat.category === filter;
   });
+
+  const activeDomainInfo = DOMAIN_RADAR_DATA.find((d) => d.domain === selectedDomain) || DOMAIN_RADAR_DATA[0];
 
   return (
     <section id="skills" className="relative py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto z-10">
@@ -24,8 +58,88 @@ export const SkillsSection: React.FC = () => {
         </h2>
 
         <p className="text-slate-300 text-sm sm:text-base leading-relaxed">
-          Comprehensive breakdown of both technical engineering capabilities and professional soft skills.
+          Comprehensive breakdown of both technical engineering capabilities, data science domain mastery, and professional soft skills.
         </p>
+      </div>
+
+      {/* Dynamic Interactive Radar Chart Card */}
+      <div className="mb-16 p-6 sm:p-8 rounded-3xl bg-slate-900/90 border border-cyan-500/30 backdrop-blur-xl shadow-2xl relative overflow-hidden group">
+        <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-purple-500/5 to-transparent pointer-events-none" />
+
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-8 relative z-10">
+          {/* Radar Chart Left Description */}
+          <div className="lg:w-5/12 space-y-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950 text-cyan-400 border border-cyan-500/30 text-xs font-mono">
+              <RadarIcon className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
+              <span>Interactive Skill Matrix</span>
+            </div>
+
+            <div>
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+                Domain Proficiency <span className="text-cyan-400">Radar</span>
+              </h3>
+              <p className="text-slate-300 text-xs sm:text-sm mt-2 leading-relaxed">
+                Multi-dimensional visualization representing balanced mastery across Data Science, Deep Learning, Big Data pipelines, Cloud Infrastructure, and Astrophysics Research.
+              </p>
+            </div>
+
+            {/* Selected Domain Highlight Badge */}
+            <div className="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-xs text-slate-400 uppercase tracking-wider font-mono">Focused Domain</span>
+                <span className="text-xs font-mono font-bold text-cyan-400 bg-cyan-950 px-2.5 py-0.5 rounded-full border border-cyan-500/30">
+                  {activeDomainInfo.score}% Rating
+                </span>
+              </div>
+              <h4 className="text-lg font-bold text-white flex items-center gap-2">
+                <Activity className="w-4 h-4 text-purple-400 shrink-0" />
+                <span>{activeDomainInfo.domain}</span>
+              </h4>
+              <p className="text-slate-300 text-xs">{activeDomainInfo.description}</p>
+            </div>
+
+            {/* Quick Domain Click Pills */}
+            <div className="flex flex-wrap gap-2 pt-2">
+              {DOMAIN_RADAR_DATA.map((item) => (
+                <button
+                  key={item.domain}
+                  onClick={() => setSelectedDomain(item.domain)}
+                  className={`px-2.5 py-1 rounded-lg text-[11px] font-medium transition-all ${
+                    (selectedDomain === item.domain || (!selectedDomain && item === DOMAIN_RADAR_DATA[0]))
+                      ? 'bg-cyan-500 text-slate-950 font-bold shadow-md shadow-cyan-500/20'
+                      : 'bg-slate-950/60 text-slate-400 hover:text-slate-200 border border-slate-800/80'
+                  }`}
+                >
+                  {item.domain}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Radar Chart Component */}
+          <div className="w-full lg:w-7/12 h-[340px] sm:h-[400px] flex items-center justify-center relative">
+            <ResponsiveContainer width="100%" height="100%">
+              <RadarChart cx="50%" cy="50%" outerRadius="70%" data={DOMAIN_RADAR_DATA}>
+                <PolarGrid stroke="#334155" strokeDasharray="3 3" />
+                <PolarAngleAxis
+                  dataKey="domain"
+                  tick={{ fill: '#94a3b8', fontSize: 11, fontWeight: 600 }}
+                />
+                <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fill: '#64748b', fontSize: 10 }} />
+                <Radar
+                  name="Proficiency"
+                  dataKey="score"
+                  stroke="#38bdf8"
+                  fill="#0284c7"
+                  fillOpacity={0.45}
+                  dot={{ r: 4, fill: '#38bdf8', stroke: '#0f172a', strokeWidth: 2 }}
+                  activeDot={{ r: 7, fill: '#c084fc', stroke: '#38bdf8', strokeWidth: 2 }}
+                />
+                <Tooltip content={<CustomRadarTooltip />} />
+              </RadarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
       </div>
 
       {/* Category Filter */}
@@ -119,3 +233,4 @@ export const SkillsSection: React.FC = () => {
     </section>
   );
 };
+
