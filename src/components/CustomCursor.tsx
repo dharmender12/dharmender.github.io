@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from 'react';
 
 export const CustomCursor: React.FC = () => {
   const [isHovered, setIsHovered] = useState(false);
-  const [hoverText, setHoverText] = useState<string | null>(null);
   const [isMouseDown, setIsMouseDown] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
@@ -43,23 +42,8 @@ export const CustomCursor: React.FC = () => {
 
       if (interactiveEl) {
         setIsHovered(true);
-
-        // Check if there's custom cursor text requested
-        const customText = interactiveEl.getAttribute('data-cursor-text');
-        if (customText) {
-          setHoverText(customText);
-        } else if (interactiveEl.tagName === 'A' || interactiveEl.closest('a')) {
-          setHoverText('OPEN');
-        } else if (interactiveEl.tagName === 'BUTTON' || interactiveEl.closest('button')) {
-          setHoverText('CLICK');
-        } else if (interactiveEl.classList.contains('glass-card')) {
-          setHoverText('VIEW');
-        } else {
-          setHoverText(null);
-        }
       } else {
         setIsHovered(false);
-        setHoverText(null);
       }
     };
 
@@ -77,8 +61,8 @@ export const CustomCursor: React.FC = () => {
       const dx = mousePos.current.x - ringPos.current.x;
       const dy = mousePos.current.y - ringPos.current.y;
 
-      vel.current.x = dx * 0.18;
-      vel.current.y = dy * 0.18;
+      vel.current.x = dx * 0.22;
+      vel.current.y = dy * 0.22;
 
       ringPos.current.x += vel.current.x;
       ringPos.current.y += vel.current.y;
@@ -88,14 +72,14 @@ export const CustomCursor: React.FC = () => {
         dotRef.current.style.transform = `translate3d(${mousePos.current.x}px, ${mousePos.current.y}px, 0)`;
       }
 
-      // Smooth lerp placement for outer 3D aura ring with velocity dynamic rotation
+      // Smooth lerp placement for outer subtle ring with mild tilt
       if (ringRef.current) {
         const speed = Math.sqrt(vel.current.x * vel.current.x + vel.current.y * vel.current.y);
-        const rotX = Math.min(Math.max(vel.current.y * 1.5, -30), 30);
-        const rotY = Math.min(Math.max(-vel.current.x * 1.5, -30), 30);
+        const rotX = Math.min(Math.max(vel.current.y * 0.8, -15), 15);
+        const rotY = Math.min(Math.max(-vel.current.x * 0.8, -15), 15);
 
         ringRef.current.style.transform = `translate3d(${ringPos.current.x}px, ${ringPos.current.y}px, 0) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(${
-          isMouseDown ? 0.75 : isHovered ? 1.6 : 1 + Math.min(speed * 0.01, 0.3)
+          isMouseDown ? 0.85 : isHovered ? 1.25 : 1 + Math.min(speed * 0.005, 0.15)
         })`;
       }
 
@@ -119,42 +103,33 @@ export const CustomCursor: React.FC = () => {
 
   return (
     <div className="pointer-events-none fixed inset-0 z-[9999] overflow-hidden">
-      {/* Outer 3D Interactive Aura Ring */}
+      {/* Outer Sleek Aura Ring */}
       <div
         ref={ringRef}
-        className={`fixed top-0 left-0 -mt-6 -ml-6 w-12 h-12 rounded-full border transition-colors duration-300 ease-out flex items-center justify-center preserve-3d shadow-2xl ${
+        className={`fixed top-0 left-0 -mt-4 -ml-4 w-8 h-8 rounded-full border transition-colors duration-200 ease-out flex items-center justify-center preserve-3d ${
           isHovered
-            ? 'border-cyan-400/80 bg-cyan-500/15 shadow-[0_0_25px_rgba(56,189,248,0.4)] backdrop-blur-[2px]'
-            : 'border-cyan-400/40 bg-cyan-950/10 shadow-[0_0_12px_rgba(56,189,248,0.2)]'
+            ? 'border-cyan-300/80 bg-cyan-400/10 shadow-[0_0_12px_rgba(56,189,248,0.3)]'
+            : 'border-cyan-400/30 bg-cyan-950/5'
         }`}
         style={{
           willChange: 'transform',
         }}
       >
-        {/* Decorative 3D Orbit Lines inside cursor ring */}
+        {/* Subtle Inner Accent Ring */}
         <div
-          className={`absolute inset-1 rounded-full border border-dashed transition-all duration-500 ${
-            isHovered
-              ? 'border-purple-400/60 animate-[spin_4s_linear_infinite]'
-              : 'border-cyan-400/20 animate-[spin_8s_linear_infinite]'
+          className={`absolute inset-0.5 rounded-full border transition-opacity duration-300 ${
+            isHovered ? 'border-cyan-400/30 opacity-100' : 'opacity-0'
           }`}
         />
-
-        {/* Optional Hover Action Text inside expanded cursor */}
-        {isHovered && hoverText && (
-          <span className="text-[9px] font-mono font-black uppercase tracking-widest text-cyan-300 animate-in fade-in zoom-in-75 duration-200">
-            {hoverText}
-          </span>
-        )}
       </div>
 
       {/* Inner Precision Sharp Core Dot */}
       <div
         ref={dotRef}
-        className={`fixed top-0 left-0 -mt-1 -ml-1 w-2 h-2 rounded-full transition-transform duration-150 ${
+        className={`fixed top-0 left-0 -mt-1 -ml-1 w-2 h-2 rounded-full transition-all duration-150 ${
           isHovered
-            ? 'bg-purple-300 scale-150 shadow-[0_0_10px_#c084fc]'
-            : 'bg-cyan-300 shadow-[0_0_8px_#38bdf8]'
+            ? 'bg-cyan-300 scale-125 shadow-[0_0_8px_#38bdf8]'
+            : 'bg-cyan-400 shadow-[0_0_6px_rgba(56,189,248,0.6)]'
         }`}
         style={{
           willChange: 'transform',
@@ -163,3 +138,4 @@ export const CustomCursor: React.FC = () => {
     </div>
   );
 };
+
