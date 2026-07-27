@@ -256,46 +256,6 @@ export const PROJECTS: Project[] = [
       "Real-time sentiment classification (Positive, Negative, Neutral)",
       "Interactive Streamlit app with live sentiment prediction"
     ]
-  },
-  {
-    id: "project-4",
-    title: "Astronomical Pattern Recognition",
-    subtitle: "IIA Scientific Data Pipeline",
-    description: "Large-scale multi-dimensional astronomical dataset processing, hypothesis testing, and machine learning pattern discovery.",
-    longDescription: "Developed for Indian Institute of Astrophysics (IIA), this scientific data pipeline processes multi-gigabyte astronomical survey data. Implements statistical regression, hypothesis testing, and pattern recognition algorithms for stellar classification.",
-    techStack: ["Python", "Scikit-learn", "Statistical ML", "Matplotlib", "Big Data"],
-    liveUrl: "https://astronomical-data-analytics.vercel.app/",
-    githubUrl: "https://github.com/dharmender12/dharmender.github.io",
-    category: "Cloud Analytics",
-    featured: true,
-    metrics: ["Multi-Dimensional Data", "Hypothesis Testing", "IIA Research"],
-    imagePlaceholderGradient: "from-amber-600 via-orange-500 to-purple-900",
-    keyFeatures: [
-      "Cleaning and validation of high-volume scientific datasets",
-      "Hypothesis testing and multi-variate statistical regression",
-      "Automated outlier detection and cosmic signal extraction",
-      "High-resolution interactive scientific visual reports"
-    ]
-  },
-  {
-    id: "project-5",
-    title: "3D Full-Stack AI Intelligence Hub",
-    subtitle: "WebGL & Gemini AI App",
-    description: "Immersive 3D web application integrating full-stack React, Three.js spatial graphics, and Gemini AI data insights.",
-    longDescription: "A cutting-edge 3D interactive web application showcasing full-stack capabilities with real-time AI assistance, 3D WebGL visualizations, and responsive modern interface aesthetics.",
-    techStack: ["React", "TypeScript", "Three.js", "Express", "Gemini AI"],
-    liveUrl: "https://dharmender-github-io.vercel.app/",
-    githubUrl: "https://github.com/dharmender12/dharmender.github.io",
-    category: "Full Stack",
-    featured: true,
-    metrics: ["WebGL 3D Engine", "Full Stack AI", "Vercel Deployed"],
-    imagePlaceholderGradient: "from-pink-600 via-rose-500 to-slate-900",
-    keyFeatures: [
-      "3D spatial canvas rendering with Three.js WebGL shaders",
-      "Full-stack Express API integration with server-side AI processing",
-      "Responsive glassmorphism UI with smooth Motion physics",
-      "Automated deployment on Vercel and GitHub pages"
-    ]
   }
 ];
 

@@ -8,7 +8,8 @@ export const ProjectsSection: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [activeModalProject, setActiveModalProject] = useState<Project | null>(null);
 
-  const categories = ['All', 'Machine Learning', 'Data Analytics', 'NLP', 'Cloud Analytics', 'Full Stack'];
+  const availableCategories = Array.from(new Set(PROJECTS.map((p) => p.category)));
+  const categories = ['All', ...availableCategories];
 
   const filteredProjects = PROJECTS.filter((proj) => {
     if (selectedCategory === 'All') return true;
