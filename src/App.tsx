@@ -10,7 +10,7 @@ import { PublicationsSection } from './components/PublicationsSection';
 import { ContactSection } from './components/ContactSection';
 import { DeploymentModal } from './components/DeploymentModal';
 import { PERSONAL_INFO } from './data/resumeData';
-import { Heart, Github, Linkedin, ArrowUp, GraduationCap } from 'lucide-react';
+import { Heart, Github, Linkedin, ArrowUp, GraduationCap, IdCard } from 'lucide-react';
 
 export default function App() {
   const [activeSection, setActiveSection] = useState<string>('home');
@@ -131,6 +131,17 @@ export default function App() {
               title="Google Scholar Profile"
             >
               <GraduationCap className="w-5 h-5" />
+            </a>
+
+            <a
+              href={PERSONAL_INFO.orcidUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2.5 rounded-xl bg-slate-900 border border-slate-800 text-slate-300 hover:text-emerald-400 hover:border-emerald-500/40 transition-colors"
+              aria-label="ORCID iD Profile"
+              title="ORCID iD: 0009-0009-2470-0400"
+            >
+              <IdCard className="w-5 h-5" />
             </a>
           </div>
 

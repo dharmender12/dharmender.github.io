@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { PERSONAL_INFO } from '../data/resumeData';
 import { handleDownloadAndOpenResume } from '../utils/resumeHandler';
 import confetti from 'canvas-confetti';
-import { Mail, Phone, MapPin, Linkedin, Github, Send, Download, ExternalLink, Sparkles, CheckCircle2, Copy, Check } from 'lucide-react';
+import { Mail, Phone, MapPin, Linkedin, Github, Send, Download, ExternalLink, Sparkles, CheckCircle2, Copy, Check, GraduationCap, IdCard } from 'lucide-react';
 
 export const ContactSection: React.FC = () => {
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
@@ -144,6 +144,24 @@ export const ContactSection: React.FC = () => {
                   title="GitHub Profile (Opens in new tab)"
                 >
                   <Github className="w-5 h-5" />
+                </a>
+                <a
+                  href={PERSONAL_INFO.scholarUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-3 rounded-xl bg-slate-900 hover:bg-cyan-600 text-slate-300 hover:text-white border border-white/10 transition-colors"
+                  title="Google Scholar Profile (Opens in new tab)"
+                >
+                  <GraduationCap className="w-5 h-5" />
+                </a>
+                <a
+                  href={PERSONAL_INFO.orcidUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-3 rounded-xl bg-slate-900 hover:bg-emerald-600 text-slate-300 hover:text-white border border-white/10 transition-colors"
+                  title="ORCID iD Profile (0009-0009-2470-0400)"
+                >
+                  <IdCard className="w-5 h-5" />
                 </a>
               </div>
 

@@ -9,6 +9,8 @@ export const PERSONAL_INFO = {
   linkedIn: "https://linkedin.com/in/dharmender-thakur",
   github: "https://github.com/dharmender12/dharmender.github.io",
   scholarUrl: "https://scholar.google.com/citations?user=LUqb9dYAAAAJ&hl=en",
+  orcidUrl: "https://orcid.org/0009-0009-2470-0400",
+  orcidId: "0009-0009-2470-0400",
   summary: "Results-driven Data Scientist, Data Analyst, and Data Engineer with strong expertise in Machine Learning, Deep Learning, Big Data pipelines (PySpark, Spark SQL), Cloud Infrastructure (GCP, Databricks), and Business Analytics (SQL CTEs, Power BI, KPI Dashboards). Experienced in training B.Tech and BCA university students in end-to-end data workflows and conducting scientific statistical research at Indian Institute of Astrophysics (IIA). Currently pursuing a Ph.D. in Astronomy with a solid foundation in large-scale data processing.",
   tagline: "Hey, I'm a Data Scientist",
   profileImage: "/avatar.jpg"

@@ -1,6 +1,6 @@
 import React from 'react';
 import { PUBLICATIONS, PERSONAL_INFO } from '../data/resumeData';
-import { BookOpen, ExternalLink, Github, Sparkles, GraduationCap, FileText, Bookmark, Atom } from 'lucide-react';
+import { BookOpen, ExternalLink, Github, GraduationCap, FileText, Atom, IdCard } from 'lucide-react';
 
 export const PublicationsSection: React.FC = () => {
   return (
@@ -18,24 +18,26 @@ export const PublicationsSection: React.FC = () => {
         </p>
       </div>
 
-      {/* Google Scholar Profile Highlight Card */}
-      <div className="mb-12 p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-purple-950/50 via-slate-900/80 to-cyan-950/50 border border-purple-500/30 shadow-2xl relative overflow-hidden group">
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+      {/* Google Scholar & ORCID Profile Highlight Cards */}
+      <div className="mb-12 grid grid-cols-1 md:grid-cols-2 gap-6">
         
-        <div className="flex flex-col md:flex-row items-center justify-between gap-6 relative z-10">
-          <div className="flex items-center gap-5 text-center md:text-left">
-            <div className="w-16 h-16 rounded-2xl bg-purple-600/20 border border-purple-500/40 text-purple-300 flex items-center justify-center shrink-0 shadow-lg shadow-purple-500/20">
-              <GraduationCap className="w-8 h-8" />
+        {/* Google Scholar Card */}
+        <div className="p-6 sm:p-7 rounded-3xl bg-gradient-to-br from-purple-950/60 via-slate-900/80 to-slate-950 border border-purple-500/30 shadow-2xl relative overflow-hidden group flex flex-col justify-between gap-5">
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-500/10 to-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+          
+          <div className="flex items-start gap-4 relative z-10">
+            <div className="w-14 h-14 rounded-2xl bg-purple-600/20 border border-purple-500/40 text-purple-300 flex items-center justify-center shrink-0 shadow-lg shadow-purple-500/20">
+              <GraduationCap className="w-7 h-7" />
             </div>
             <div className="space-y-1">
-              <div className="flex items-center justify-center md:justify-start gap-2">
-                <h3 className="text-xl sm:text-2xl font-bold text-white">Google Scholar Profile</h3>
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-mono bg-cyan-950 text-cyan-300 border border-cyan-500/30">
+              <div className="flex items-center gap-2">
+                <h3 className="text-lg font-bold text-white">Google Scholar</h3>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-cyan-950 text-cyan-300 border border-cyan-500/30">
                   Verified
                 </span>
               </div>
-              <p className="text-slate-300 text-xs sm:text-sm max-w-xl">
-                Follow my research citations, upcoming astronomical papers, and collaborative preprints on Google Scholar.
+              <p className="text-slate-300 text-xs leading-relaxed">
+                Track citations, upcoming paper preprints, and academic collaborations on Google Scholar.
               </p>
             </div>
           </div>
@@ -44,12 +46,45 @@ export const PublicationsSection: React.FC = () => {
             href={PERSONAL_INFO.scholarUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="px-6 py-3 rounded-2xl bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 text-white font-bold text-xs sm:text-sm flex items-center gap-2.5 shadow-xl shadow-purple-600/30 transition-all cursor-pointer shrink-0 hover:scale-105"
+            className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-purple-600/30 transition-all cursor-pointer hover:scale-[1.02] relative z-10"
           >
-            <span>Follow on Google Scholar</span>
-            <ExternalLink className="w-4 h-4" />
+            <span>Google Scholar Profile</span>
+            <ExternalLink className="w-3.5 h-3.5" />
           </a>
         </div>
+
+        {/* ORCID iD Card */}
+        <div className="p-6 sm:p-7 rounded-3xl bg-gradient-to-br from-emerald-950/60 via-slate-900/80 to-slate-950 border border-emerald-500/30 shadow-2xl relative overflow-hidden group flex flex-col justify-between gap-5">
+          <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-teal-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+          
+          <div className="flex items-start gap-4 relative z-10">
+            <div className="w-14 h-14 rounded-2xl bg-emerald-600/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center shrink-0 shadow-lg shadow-emerald-500/20">
+              <IdCard className="w-7 h-7" />
+            </div>
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <h3 className="text-lg font-bold text-white">ORCID iD</h3>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-mono bg-emerald-950 text-emerald-300 border border-emerald-500/30">
+                  {PERSONAL_INFO.orcidId}
+                </span>
+              </div>
+              <p className="text-slate-300 text-xs leading-relaxed">
+                Official persistent digital identifier connecting researchers, publications, and grants.
+              </p>
+            </div>
+          </div>
+
+          <a
+            href={PERSONAL_INFO.orcidUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/30 transition-all cursor-pointer hover:scale-[1.02] relative z-10"
+          >
+            <span>View ORCID Record</span>
+            <ExternalLink className="w-3.5 h-3.5" />
+          </a>
+        </div>
+
       </div>
 
       {/* Publications List */}
