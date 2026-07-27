@@ -30,6 +30,9 @@ export const AboutSection: React.FC = () => {
                   alt={PERSONAL_INFO.name}
                   referrerPolicy="no-referrer"
                   className="w-full h-full object-cover object-center"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = 'https://avatars.githubusercontent.com/u/112612895?v=4';
+                  }}
                 />
               </div>
               <div className="absolute bottom-0 right-0 w-5 h-5 rounded-full bg-emerald-500 border-2 border-slate-950 flex items-center justify-center shadow-md" title="Active & Available">

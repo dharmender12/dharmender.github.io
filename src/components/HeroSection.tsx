@@ -24,6 +24,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
                 alt={PERSONAL_INFO.name}
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).src = 'https://avatars.githubusercontent.com/u/112612895?v=4';
+                }}
               />
             </div>
             <div className="absolute bottom-1 right-1 sm:bottom-2 sm:right-2 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-emerald-500 border-2 border-slate-950 flex items-center justify-center shadow-lg" title="Available for Roles">

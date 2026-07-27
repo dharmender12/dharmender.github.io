@@ -10,7 +10,7 @@ export const PERSONAL_INFO = {
   github: "https://github.com/dharmender12/dharmender.github.io",
   summary: "Results-driven Data Scientist, Data Analyst, and Data Engineer with strong expertise in Machine Learning, Deep Learning, Big Data pipelines (PySpark, Spark SQL), Cloud Infrastructure (GCP, Databricks), and Business Analytics (SQL CTEs, Power BI, KPI Dashboards). Experienced in training B.Tech and BCA university students in end-to-end data workflows and conducting scientific statistical research at Indian Institute of Astrophysics (IIA). Currently pursuing a Ph.D. in Astronomy with a solid foundation in large-scale data processing.",
   tagline: "Hey, I'm a Data Scientist",
-  profileImage: "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=800&q=80"
+  profileImage: "/avatar.jpg"
 };
 
 export const EXPERIENCES: Experience[] = [
