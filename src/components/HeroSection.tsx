@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { FileDown, ArrowRight, ExternalLink, Brain, Database, Code } from 'lucide-react';
 import { PERSONAL_INFO } from '../data/resumeData';
 import { handleResumeAction } from '../utils/resumeGenerator';
@@ -7,7 +7,41 @@ interface HeroSectionProps {
   onNavigate: (sectionId: string) => void;
 }
 
+const TITLES = ['Data Scientist', 'Data Analyst', 'Full Stack Developer'];
+
 export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
+  const [titleIndex, setTitleIndex] = useState(0);
+  const [currentText, setCurrentText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+
+  useEffect(() => {
+    const targetTitle = TITLES[titleIndex];
+    let typingSpeed = isDeleting ? 40 : 80;
+
+    if (!isDeleting && currentText === targetTitle) {
+      const pauseTimer = setTimeout(() => {
+        setIsDeleting(true);
+      }, 2000);
+      return () => clearTimeout(pauseTimer);
+    }
+
+    if (isDeleting && currentText === '') {
+      setIsDeleting(false);
+      setTitleIndex((prev) => (prev + 1) % TITLES.length);
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setCurrentText((prev) =>
+        isDeleting
+          ? targetTitle.substring(0, prev.length - 1)
+          : targetTitle.substring(0, prev.length + 1)
+      );
+    }, typingSpeed);
+
+    return () => clearTimeout(timer);
+  }, [currentText, isDeleting, titleIndex]);
+
   return (
     <section
       id="home"
@@ -43,10 +77,16 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onNavigate }) => {
             </span>
           </h1>
 
-          {/* Brief Intro Requirement: "Hey, I'm a..." */}
-          <p className="text-xl sm:text-2xl md:text-3xl font-medium text-cyan-400 font-sans tracking-wide">
-            {PERSONAL_INFO.tagline}
-          </p>
+          {/* Typing Effect Subtitle */}
+          <div className="min-h-[2.5rem] flex items-center justify-center">
+            <p className="text-xl sm:text-2xl md:text-3xl font-medium text-cyan-400 font-sans tracking-wide inline-flex items-center">
+              <span>Hey, I'm a&nbsp;</span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-teal-200 to-indigo-300 font-semibold">
+                {currentText}
+              </span>
+              <span className="inline-block w-[3px] h-6 sm:h-8 bg-cyan-400 ml-1.5 animate-pulse rounded-full" />
+            </p>
+          </div>
 
           <p className="max-w-2xl mx-auto text-sm sm:text-base text-slate-300 leading-relaxed pt-2">
             Specialized in Machine Learning & Deep Learning, Scalable Big Data Pipelines (PySpark, Databricks, GCP), SQL Query Optimization, and Interactive Business Intelligence Dashboards.
