@@ -2,11 +2,22 @@ import React, { useState } from 'react';
 import { PERSONAL_INFO } from '../data/resumeData';
 import { handleDownloadAndOpenResume } from '../utils/resumeHandler';
 import confetti from 'canvas-confetti';
-import { Mail, Phone, MapPin, Linkedin, Github, Send, Download, ExternalLink, Sparkles, CheckCircle2 } from 'lucide-react';
+import { Mail, Phone, MapPin, Linkedin, Github, Send, Download, ExternalLink, Sparkles, CheckCircle2, Copy, Check } from 'lucide-react';
 
 export const ContactSection: React.FC = () => {
   const [formData, setFormData] = useState({ name: '', email: '', subject: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
+  const [copiedEmail, setCopiedEmail] = useState(false);
+
+  const handleCopyEmail = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    e.preventDefault();
+    navigator.clipboard.writeText(PERSONAL_INFO.email);
+    setCopiedEmail(true);
+    setTimeout(() => {
+      setCopiedEmail(false);
+    }, 2500);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -53,20 +64,40 @@ export const ContactSection: React.FC = () => {
             </p>
 
             <div className="space-y-4 pt-2">
-              <a
-                href={`mailto:${PERSONAL_INFO.email}`}
-                className="flex items-center gap-4 p-4 rounded-xl bg-slate-900/60 hover:bg-slate-800 border border-white/5 hover:border-blue-500/40 transition-all text-slate-200 group"
-              >
-                <div className="w-12 h-12 rounded-xl bg-blue-600/20 text-blue-400 flex items-center justify-center border border-blue-500/30 group-hover:scale-105 transition-transform">
-                  <Mail className="w-6 h-6" />
-                </div>
-                <div>
-                  <span className="text-xs font-mono text-slate-400 uppercase">Email Address</span>
-                  <p className="font-semibold text-white text-sm sm:text-base group-hover:text-blue-400 transition-colors">
-                    {PERSONAL_INFO.email}
-                  </p>
-                </div>
-              </a>
+              <div className="flex items-center justify-between p-4 rounded-xl bg-slate-900/60 hover:bg-slate-800 border border-white/5 hover:border-blue-500/40 transition-all text-slate-200 group">
+                <a
+                  href={`mailto:${PERSONAL_INFO.email}`}
+                  className="flex items-center gap-4 flex-1 min-w-0"
+                >
+                  <div className="w-12 h-12 rounded-xl bg-blue-600/20 text-blue-400 flex items-center justify-center border border-blue-500/30 group-hover:scale-105 transition-transform shrink-0">
+                    <Mail className="w-6 h-6" />
+                  </div>
+                  <div className="truncate">
+                    <span className="text-xs font-mono text-slate-400 uppercase">Email Address</span>
+                    <p className="font-semibold text-white text-sm sm:text-base group-hover:text-blue-400 transition-colors truncate">
+                      {PERSONAL_INFO.email}
+                    </p>
+                  </div>
+                </a>
+                <button
+                  onClick={handleCopyEmail}
+                  type="button"
+                  className="ml-3 px-3 py-2 rounded-lg bg-slate-800 hover:bg-blue-600/30 border border-white/10 hover:border-blue-400/50 text-xs font-mono font-medium text-slate-300 hover:text-white flex items-center gap-1.5 transition-all cursor-pointer shrink-0"
+                  title="Copy Email Address"
+                >
+                  {copiedEmail ? (
+                    <>
+                      <Check className="w-3.5 h-3.5 text-emerald-400" />
+                      <span className="text-emerald-400">Copied!</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy className="w-3.5 h-3.5 text-slate-400 group-hover:text-blue-300" />
+                      <span>Copy</span>
+                    </>
+                  )}
+                </button>
+              </div>
 
               <a
                 href={`tel:${PERSONAL_INFO.phone.replace(/\s+/g, '')}`}
@@ -213,6 +244,14 @@ export const ContactSection: React.FC = () => {
         </div>
 
       </div>
+
+      {/* Floating Toast Notification on Copy */}
+      {copiedEmail && (
+        <div className="fixed bottom-6 right-6 z-50 px-4 py-3 rounded-xl bg-slate-900/95 border border-cyan-500/50 text-cyan-300 text-sm font-semibold shadow-2xl flex items-center gap-2.5 backdrop-blur-md animate-in fade-in slide-in-from-bottom-4 duration-300">
+          <CheckCircle2 className="w-5 h-5 text-emerald-400 shrink-0" />
+          <span>Email copied to clipboard!</span>
+        </div>
+      )}
     </section>
   );
 };
