@@ -38,6 +38,7 @@ import { cn } from './lib/utils';
 import { DataUniverseCanvas } from './components/DataUniverseCanvas';
 import { Card3D } from './components/Card3D';
 import { DataPipeline3D } from './components/DataPipeline3D';
+import { ErrorBoundary } from './components/ErrorBoundary';
 
 // User Profile Constant Info
 const PROFILE = {
@@ -460,7 +461,9 @@ export default function App() {
               transition={{ duration: 0.6 }}
               className="relative w-full h-[440px] sm:h-[500px] rounded-3xl overflow-hidden border border-cyan-500/30 shadow-[0_0_50px_rgba(6,182,212,0.15)] bg-slate-950/70 backdrop-blur-xl"
             >
-              <DataUniverseCanvas />
+              <ErrorBoundary>
+                <DataUniverseCanvas />
+              </ErrorBoundary>
             </motion.div>
           </div>
         </div>
