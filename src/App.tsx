@@ -309,19 +309,15 @@ export default function App() {
         github={PROFILE.github}
       />
 
-      {/* Glassmorphic Navigation Bar */}
-      <header className="sticky top-0 z-40 bg-[#030014]/75 backdrop-blur-xl border-b border-white/10 transition-all">
-        <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+      {/* Clean Minimalist Header */}
+      <header className="sticky top-0 z-40 bg-[#030014]/80 backdrop-blur-xl border-b border-white/10 transition-all">
+        <div className="max-w-6xl mx-auto px-6 h-18 flex items-center justify-between">
           <a href="#hero" className="flex items-center gap-3 group">
-            <div className="w-8 h-8 rounded-xl bg-violet-600/20 border border-violet-500/40 flex items-center justify-center text-violet-300 font-mono font-bold text-sm shadow-inner group-hover:scale-105 transition-transform">
-              D
+            <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/15 flex items-center justify-center text-white font-mono font-bold text-xs group-hover:border-violet-500/50 group-hover:text-violet-300 transition-all">
+              DT
             </div>
-            <span className="font-extrabold tracking-tight text-white text-base group-hover:text-violet-300 transition-colors">
-              {PROFILE.name.toUpperCase()}
-            </span>
-            <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-[11px] font-mono text-emerald-400 font-medium">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              Available for Data & AI Roles
+            <span className="font-bold tracking-tight text-white text-sm group-hover:text-violet-300 transition-colors">
+              {PROFILE.name}
             </span>
           </a>
 
@@ -333,13 +329,13 @@ export default function App() {
             <a href="#education" className="hover:text-white transition-colors">Education</a>
             <button 
               onClick={() => setIsContactModalOpen(true)} 
-              className="hover:text-violet-300 transition-colors cursor-pointer"
+              className="hover:text-white transition-colors cursor-pointer"
             >
               Contact
             </button>
           </nav>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
             <a
               href={PROFILE.github}
               target="_blank"
@@ -347,7 +343,7 @@ export default function App() {
               className="p-2 rounded-full text-zinc-400 hover:text-white hover:bg-white/10 transition-all"
               title="GitHub Profile"
             >
-              <Github size={18} />
+              <Github size={17} />
             </a>
             <a
               href={PROFILE.linkedin}
@@ -356,11 +352,11 @@ export default function App() {
               className="p-2 rounded-full text-zinc-400 hover:text-white hover:bg-white/10 transition-all"
               title="LinkedIn Profile"
             >
-              <Linkedin size={18} />
+              <Linkedin size={17} />
             </a>
             <button
               onClick={() => setIsContactModalOpen(true)}
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-violet-600 hover:bg-violet-500 text-white text-xs font-medium tracking-wide transition-all shadow-lg shadow-violet-600/30 active:scale-95 cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white text-zinc-950 hover:bg-zinc-200 text-xs font-semibold tracking-wide transition-all shadow-sm active:scale-95 cursor-pointer"
             >
               <span>Get in touch</span>
               <ArrowUpRight size={13} />
