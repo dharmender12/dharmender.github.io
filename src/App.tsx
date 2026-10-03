@@ -3,1001 +3,692 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
-  Database, 
-  BarChart3, 
-  Cpu, 
-  BrainCircuit, 
+  ArrowUpRight, 
   Github, 
   Linkedin, 
   Mail, 
+  Phone, 
+  MapPin, 
   ExternalLink, 
-  ChevronRight,
-  Code2,
-  Telescope,
-  TrendingUp,
-  MessageSquare,
-  Sparkles,
-  Search,
-  X,
-  Layers,
-  Star,
-  GitFork,
-  Activity,
-  Copy,
-  Check,
-  RefreshCw,
-  Server,
-  Zap,
-  Terminal,
-  FileText
+  Check, 
+  Copy, 
+  Briefcase, 
+  GraduationCap, 
+  Award, 
+  Code2, 
+  Sparkles, 
+  ChevronRight, 
+  Layers, 
+  TrendingUp, 
+  Database, 
+  MessageSquare, 
+  Cpu, 
+  BarChart3, 
+  Users, 
+  Compass, 
+  FileText 
 } from 'lucide-react';
-import { cn } from './lib/utils';
-import { DataUniverseCanvas } from './components/DataUniverseCanvas';
-import { Card3D } from './components/Card3D';
-import { DataPipeline3D } from './components/DataPipeline3D';
-import { ErrorBoundary } from './components/ErrorBoundary';
 
-// User Profile Constant Info
+// Resume Details grounded in the user's document
 const PROFILE = {
-  name: "Dharmender Thakur, PhD",
-  role: "Data Scientist | ML Engineer | Astronomy Researcher",
-  bio: "Bridging Astrophysical Precision with Enterprise Intelligence. Expert in high-dimensional statistical modeling, distributed PySpark pipelines, and production Machine Learning systems.",
-  githubUsername: "dharmender12",
-  githubUrl: "https://github.com/dharmender12",
-  linkedinUrl: "https://www.linkedin.com/in/dharmender-thakur1220/",
+  name: "Dharmender Thakur",
+  title: "Data & AI Professional | Client Solutions, Enablement & Business Development",
   email: "dharmender98thakur@gmail.com",
-  location: "Chandigarh / Shimla, India"
+  phone: "+91 8544713601",
+  location: "Chandigarh, India",
+  linkedin: "https://linkedin.com/in/dharmender-thakur1220",
+  github: "https://github.com/dharmender12",
+  summary: "Data & AI professional with hands-on experience delivering technical training to university and corporate cohorts, including an ongoing EY engagement via Chitkara University and IBM Career Education Program training at Allsoft Solution. Skilled in machine learning, NLP, GenAI (LangChain), Apache Spark, GCP, Databricks and Power BI, with a proven ability to turn technical capability into clear, business-ready language for mixed audiences. Experienced in understanding client needs, tailoring content to them, presenting to stakeholders, and reporting on outcomes."
 };
 
-// Curated Case Studies
-const FEATURED_PROJECTS = [
+const EXPERIENCES = [
   {
-    title: "Supply Chain & Inventory Optimization",
-    subtitle: "Enterprise Predictive Logistics",
-    description: "Architected an end-to-end predictive inventory management system. Modeled historical SKU velocity and supplier lead-time variances to automate replenishment orders across regional fulfillment centers.",
-    tools: ['Python', 'SQL', 'Power BI', 'Django', 'Time Series'],
-    impact: "Reduced stockouts by 22% and increased inventory turnover by 15%.",
-    icon: TrendingUp,
-    category: "Data Science",
+    role: "Corporate Training Engagement",
+    company: "EY",
+    period: "Aug 2026 – Oct 2026",
+    badge: "Corporate Enablement",
+    highlights: [
+      "Delivered Data Analytics and Big Data Analytics training for BBA cohorts and Advanced Data Analytics using Excel for MBA cohorts, as part of an engagement for EY.",
+      "Adapted technical content to business-focused audiences, linking analytics techniques to practical decision-making use cases."
+    ],
+    skills: ["Big Data Analytics", "Advanced Excel", "Business Translation", "Corporate Training"]
+  },
+  {
+    role: "Data Science Instructor",
+    company: "Allsoft Solution (IBM Career Education Program)",
+    period: "Oct 2025 – Jul 2026",
+    badge: "IBM Partner Model",
+    highlights: [
+      "Delivered Business Analytics using Python to 100+ university students under IBM's Career Education Program, working within a partner-led delivery model.",
+      "Covered KPI analysis, Power BI dashboard creation, and translation of business problems into decision-ready analytical outputs.",
+      "Coached learners on presenting data insights to non-technical audiences, mirroring the analyst-to-stakeholder handoff in client engagements."
+    ],
+    skills: ["Python", "Power BI", "KPI Frameworks", "Client Enablement", "Mentorship"]
+  },
+  {
+    role: "Visiting Research Student - Data Analytics",
+    company: "Indian Institute of Astrophysics (IIA)",
+    period: "Apr 2025 – Sep 2025",
+    badge: "Scientific Computing",
+    highlights: [
+      "Built end-to-end pipelines to clean, preprocess and validate high-volume, multi-dimensional datasets, ensuring data quality for downstream analysis.",
+      "Produced analytical dashboards and research reports that translated complex technical findings into clear summaries for non-technical stakeholders.",
+      "Applied hypothesis testing, regression and statistical methods to derive insights from structured and unstructured data."
+    ],
+    skills: ["Data Pipelines", "Hypothesis Testing", "Spectroscopic Data", "Statistical Modeling", "Dashboards"]
+  }
+];
+
+const PROJECTS = [
+  {
+    title: "Supply Chain & Inventory Optimization Analytics",
+    subtitle: "Manufacturing & Logistics Decision Intelligence",
+    description: "Designed an analytics system evaluating shipment performance, supplier reliability and inventory efficiency for manufacturing and logistics decision-making. Built interactive Power BI dashboards tracking on-time delivery, inventory turnover, and supplier risk scores.",
+    tools: ["Python", "SQL", "Power BI", "Supply Chain Analytics"],
+    metric: "Turnover & Reliability Optimization",
     githubUrl: "https://github.com/dharmender12/Supply-Chain-Inventory-Optimization-System",
     liveUrl: "https://supply-chain-analytics-app.vercel.app/"
   },
   {
-    title: "Star Formation in DLAs",
-    subtitle: "High-Dimensional Astrophysical Pipeline",
-    description: "Engineered a high-performance research pipeline analyzing signal-to-noise ratios in multi-gigabyte spectroscopic observations. Formulated Markov Chain Monte Carlo (MCMC) Bayesian inference for cosmic gas systems.",
-    tools: ['Python', 'Scipy', 'Bayesian MCMC', 'Astrophysics FITS', 'Big Data'],
-    impact: "Automated signal extraction across 500GB+ of raw astronomical spectra with 98% accuracy.",
-    icon: Telescope,
-    category: "Research",
-    githubUrl: "https://github.com/dharmender12/Star-Formation-in-DLAs",
-    scholarUrl: "https://scholar.google.com/citations?user=LUqb9dYAAAAJ"
-  },
-  {
-    title: "LangChain AI Agent & Text-to-Math Solver",
-    subtitle: "Autonomous Agentic AI Engine",
-    description: "Production GenAI application built with LangChain, Groq LLM inference, and Streamlit. Employs multi-agent prompt chains to solve complex mathematical proofs and natural language queries into SQL.",
-    tools: ['LangChain', 'Groq Llama 3', 'Streamlit', 'Python', 'Agentic AI'],
-    impact: "Sub-second inference response with 94% zero-shot accuracy on benchmark reasoning sets.",
-    icon: BrainCircuit,
-    category: "NLP & GenAI",
-    githubUrl: "https://github.com/dharmender12/text-to-math-solver-groq",
-    liveUrl: "https://text-to-maths-groq.streamlit.app/"
-  },
-  {
-    title: "Anomaly Detection in CSAGN",
-    subtitle: "Astrophysical Machine Learning System",
-    description: "Machine learning classifier designed to identify rare Changing-State Active Galactic Nuclei (CSAGN) within massive time-domain sky survey databases.",
-    tools: ['Python', 'Scikit-Learn', 'Feature Engineering', 'XGBoost'],
-    impact: "Identified high-probability cosmic transition events with 96.5% precision.",
-    icon: Cpu,
-    category: "Research",
-    githubUrl: "https://github.com/dharmender12/anamoly_detection_csagn"
-  },
-  {
-    title: "Deep Learning Titanic Survival Predictor",
-    subtitle: "Neural Network Classification",
-    description: "Neural network classifier trained with PyTorch/TensorFlow, featuring end-to-end data pipelines, custom imputation for missing covariates, and an interactive Streamlit UI.",
-    tools: ['PyTorch', 'TensorFlow', 'Streamlit', 'Python', 'Deep Learning'],
-    impact: "Achieved top 5% Kaggle validation accuracy with explainable SHAP feature weights.",
-    icon: Activity,
-    category: "Data Science",
-    githubUrl: "https://github.com/dharmender12/titanic-survival-prediction-dl",
-    liveUrl: "https://titanic-survival-prediction-dl-itm83fstvyuujcwuy6aa7w.streamlit.app/"
-  },
-  {
-    title: "End-to-End Twitter Sentiment Analysis",
-    subtitle: "NLP Deep Learning Web App",
-    description: "Deep learning NLP pipeline utilizing custom tokenizers, embedding layers, and LSTM architectures for multi-class sentiment categorization with real-time inference.",
-    tools: ['TensorFlow/Keras', 'NLP', 'Streamlit', 'Python'],
-    impact: "Real-time streaming text classification with >89% multi-class F1-score.",
-    icon: MessageSquare,
-    category: "NLP & GenAI",
+    title: "Twitter Sentiment Analysis - Real-Time NLP Pipeline",
+    subtitle: "High-Volume Social Text Analytics",
+    description: "Processed 1M+ tweets end-to-end (ingestion, preprocessing, inference) at ~96% accuracy. Delivered sentiment insights, polarity distributions, and trend telemetry through structured reports and real-time dashboards.",
+    tools: ["Python", "NLP", "TensorFlow", "Streamlit"],
+    metric: "1M+ Tweets Processed / ~96% Accuracy",
     githubUrl: "https://github.com/dharmender12/end-to-end-twitter-sentiment-analysis",
     liveUrl: "https://end-to-end-twitter-sentiment-analysis.streamlit.app/"
   },
   {
-    title: "Quotes Scraping & SQL EDA Pipeline",
-    subtitle: "Data Warehousing & Analytics",
-    description: "Data extraction and warehousing pipeline combining automated web scrapers with PostgreSQL schemas, window functions, and exploratory analytical queries.",
-    tools: ['Python', 'SQL', 'PostgreSQL', 'Web Scraping', 'EDA'],
-    impact: "Processed 50,000+ unstructured records into normalized 3NF relational schemas.",
-    icon: Database,
-    category: "Data Science",
-    githubUrl: "https://github.com/dharmender12/quotes-scraping-sql-eda"
+    title: "Amazon Reviews Big Data Pipeline",
+    subtitle: "Medallion Architecture at Scale",
+    description: "Built a large-scale review-processing pipeline using Medallion Architecture (Bronze, Silver, Gold layers) for scalable, reliable data processing across multi-gigabyte e-commerce datasets.",
+    tools: ["PySpark", "Apache Spark", "Scala", "Medallion ETL"],
+    metric: "Multi-Layered Scalable Processing",
+    githubUrl: "https://github.com/dharmender12"
   },
   {
-    title: "E-Commerce Price Tracer",
-    subtitle: "Real-Time Telemetry & Alerting",
-    description: "Autonomous price monitoring engine tracking multi-platform product fluctuations with scheduled triggers, price delta notifications, and historical variance tracking.",
-    tools: ['Python', 'Automation', 'BeautifulSoup', 'Data Pipelines'],
-    impact: "Tracked 1,000+ SKUs daily with automated price drop notification triggers.",
+    title: "Text-to-Math Solver (GenAI)",
+    subtitle: "Agentic Reasoning & Prompt Engineering",
+    description: "Built a GenAI application applying prompt-based reasoning to structured math problems and natural language querying, demonstrating practical hands-on GenAI application development with low-latency LLM inference.",
+    tools: ["Python", "LangChain", "Groq Llama 3", "Streamlit"],
+    metric: "Sub-Second Agentic Reasoning",
+    githubUrl: "https://github.com/dharmender12/text-to-math-solver-groq",
+    liveUrl: "https://text-to-maths-groq.streamlit.app/"
+  }
+];
+
+const SKILL_DOMAINS = [
+  {
+    category: "Client & Stakeholder Engagement",
+    icon: Users,
+    items: [
+      "Needs Assessment",
+      "Solution Tailoring",
+      "Client Presentations",
+      "Trusted-Advisor Communication",
+      "Partner & Ecosystem Collaboration (IBM)",
+      "Cross-Functional Collaboration"
+    ]
+  },
+  {
+    category: "Data & AI Domain Knowledge",
+    icon: Sparkles,
+    items: [
+      "Machine Learning",
+      "NLP & Text Analytics",
+      "GenAI-Enabled Analytics (LangChain)",
+      "Recommendation Systems",
+      "Supply Chain & Manufacturing Analytics",
+      "Sentiment Analytics"
+    ]
+  },
+  {
+    category: "Platforms & Tools",
+    icon: Code2,
+    items: [
+      "Python",
+      "SQL",
+      "Apache Spark (PySpark)",
+      "GCP & BigQuery",
+      "Databricks",
+      "Power BI & Advanced Excel",
+      "R",
+      "PostgreSQL & MySQL"
+    ]
+  },
+  {
+    category: "Reporting & Performance Metrics",
     icon: BarChart3,
-    category: "Data Science",
-    githubUrl: "https://github.com/dharmender12/Price-Tracer-Project"
+    items: [
+      "KPI Frameworks",
+      "Executive Dashboards",
+      "Performance Reporting",
+      "Statistical & Hypothesis Testing",
+      "Data Storytelling",
+      "A/B Evaluation"
+    ]
   }
 ];
 
-// Fallback Repositories Snapshot in case GitHub API rate limit (60 req/hr) is reached
-const FALLBACK_REPOS = [
+const EDUCATION = [
   {
-    name: "text-to-math-solver-groq",
-    description: "LangChain AI Agents Hub featuring Text-to-Math Solver and Natural Language SQL querying using Groq and Streamlit.",
-    html_url: "https://github.com/dharmender12/text-to-math-solver-groq",
-    language: "Python",
-    stargazers_count: 1,
-    forks_count: 0,
-    homepage: "https://text-to-maths-groq.streamlit.app/"
+    degree: "Ph.D. in Astronomy (Statistical Analysis & Large-Scale Data Processing)",
+    institution: "Central University of Himachal Pradesh",
+    status: "Pursuing",
+    badge: "Doctoral Research"
   },
   {
-    name: "ArchFlow",
-    description: "Interactive architectural flow and pipeline documentation interface.",
-    html_url: "https://github.com/dharmender12/ArchFlow",
-    language: "HTML",
-    stargazers_count: 0,
-    forks_count: 0,
-    homepage: null
+    degree: "Master of Computer Application (MCA)",
+    institution: "Indira Gandhi National Open University (IGNOU)",
+    status: "Pursuing",
+    badge: "Computer Science"
   },
   {
-    name: "titanic-survival-prediction-dl",
-    description: "Deep learning neural network web application predicting passenger survival deployed with Streamlit.",
-    html_url: "https://github.com/dharmender12/titanic-survival-prediction-dl",
-    language: "Python",
-    stargazers_count: 0,
-    forks_count: 0,
-    homepage: null
+    degree: "Master of Science - Physics",
+    institution: "Central University of Himachal Pradesh",
+    status: "Completed",
+    badge: "Graduate Degree"
   },
   {
-    name: "end-to-end-twitter-sentiment-analysis",
-    description: "Full NLP pipeline from preprocessing to LSTM sentiment classification models with real-time UI.",
-    html_url: "https://github.com/dharmender12/end-to-end-twitter-sentiment-analysis",
-    language: "Jupyter Notebook",
-    stargazers_count: 0,
-    forks_count: 0,
-    homepage: "https://end-to-end-twitter-sentiment-analysis.streamlit.app/"
-  },
-  {
-    name: "Supply-Chain-Inventory-Optimization-System",
-    description: "Predictive inventory management system modeling SKU velocity and replenishment strategies.",
-    html_url: "https://github.com/dharmender12/Supply-Chain-Inventory-Optimization-System",
-    language: "Python",
-    stargazers_count: 1,
-    forks_count: 0,
-    homepage: "https://supply-chain-analytics-app.vercel.app/"
-  },
-  {
-    name: "Star-Formation-in-DLAs",
-    description: "Statistical astronomy research pipeline modeling star formation rates in Damped Lyman-alpha systems.",
-    html_url: "https://github.com/dharmender12/Star-Formation-in-DLAs",
-    language: "Python",
-    stargazers_count: 0,
-    forks_count: 0,
-    homepage: null
-  },
-  {
-    name: "calculator_app",
-    description: "Modular scientific calculation engine with unit test suites.",
-    html_url: "https://github.com/dharmender12/calculator_app",
-    language: "Jupyter Notebook",
-    stargazers_count: 0,
-    forks_count: 0,
-    homepage: null
-  },
-  {
-    name: "quotes-scraping-sql-eda",
-    description: "End-to-end web scraping pipeline paired with SQL exploratory data analysis.",
-    html_url: "https://github.com/dharmender12/quotes-scraping-sql-eda",
-    language: "Python",
-    stargazers_count: 0,
-    forks_count: 0,
-    homepage: null
+    degree: "Data Science Bootcamp",
+    institution: "Masai School",
+    status: "Completed",
+    badge: "Full-Stack Analytics"
   }
 ];
 
-const CATEGORIES = ["All", "Data Science", "Research", "NLP & GenAI"];
-
-const Section = ({ children, className, id }: { children: React.ReactNode; className?: string; id?: string }) => (
-  <section id={id} className={cn("py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative z-10", className)}>
-    {children}
-  </section>
-);
+const CERTIFICATIONS = [
+  {
+    title: "A Level - IT Professional Course",
+    issuer: "NIELIT (Govt. of India)",
+    detail: "Equivalent to Advanced Diploma in Computer Applications; aligned to Level 6 of NSQF."
+  },
+  {
+    title: "O Level - Business Professional Programmer",
+    issuer: "NIELIT (Govt. of India)",
+    detail: "First level of the NIELIT IT Professional Course scheme."
+  },
+  {
+    title: "Introduction to Machine Learning",
+    issuer: "IIT Kharagpur (NPTEL)",
+    detail: "Core algorithms, supervised and unsupervised learning theory."
+  },
+  {
+    title: "Introduction to Big Data",
+    issuer: "IBM Cognitive Classes",
+    detail: "Distributed architecture, MapReduce concepts, and enterprise big data."
+  },
+  {
+    title: "Introduction to Data Science",
+    issuer: "Infosys Springboard",
+    detail: "Statistical analysis, data pipelines, and exploratory methods."
+  }
+];
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState<'featured' | 'github'>('featured');
-  const [activeCategory, setActiveCategory] = useState("All");
-  const [searchQuery, setSearchQuery] = useState("");
   const [copiedEmail, setCopiedEmail] = useState(false);
+  const [copiedPhone, setCopiedPhone] = useState(false);
 
-  // GitHub Repos Sync State
-  const [githubRepos, setGithubRepos] = useState<any[]>(FALLBACK_REPOS);
-  const [isLoadingRepos, setIsLoadingRepos] = useState(false);
-  const [syncTimestamp, setSyncTimestamp] = useState<string | null>(null);
-  const [isRateLimited, setIsRateLimited] = useState(false);
-
-  // Fetch live repositories from GitHub API
-  const fetchGitHubRepos = async () => {
-    setIsLoadingRepos(true);
-    setIsRateLimited(false);
-    try {
-      const response = await fetch("https://api.github.com/users/dharmender12/repos?sort=updated&per_page=30");
-      if (response.ok) {
-        const data = await response.json();
-        if (Array.isArray(data) && data.length > 0) {
-          setGithubRepos(data);
-          setSyncTimestamp(new Date().toLocaleTimeString());
-        } else {
-          setGithubRepos(FALLBACK_REPOS);
-        }
-      } else {
-        // Fallback to pre-cached data on 403 or network errors
-        setIsRateLimited(true);
-        setGithubRepos(FALLBACK_REPOS);
-        setSyncTimestamp(new Date().toLocaleTimeString());
-      }
-    } catch (err) {
-      console.warn("Using cached GitHub repository portfolio due to network policy:", err);
-      setIsRateLimited(true);
-      setGithubRepos(FALLBACK_REPOS);
-    } finally {
-      setIsLoadingRepos(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchGitHubRepos();
-  }, []);
-
-  const handleCopyEmail = () => {
+  const copyEmail = () => {
     navigator.clipboard.writeText(PROFILE.email);
     setCopiedEmail(true);
-    setTimeout(() => setCopiedEmail(false), 2500);
+    setTimeout(() => setCopiedEmail(false), 2000);
   };
 
-  const filteredProjects = FEATURED_PROJECTS.filter(project => {
-    const matchesCategory = activeCategory === "All" || project.category === activeCategory;
-    const matchesSearch = project.title.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                         project.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         project.tools.some(t => t.toLowerCase().includes(searchQuery.toLowerCase()));
-    return matchesCategory && matchesSearch;
-  });
+  const copyPhone = () => {
+    navigator.clipboard.writeText(PROFILE.phone);
+    setCopiedPhone(true);
+    setTimeout(() => setCopiedPhone(false), 2000);
+  };
 
   return (
-    <div className="min-h-screen bg-[#030712] text-slate-100 relative overflow-hidden">
-      {/* Dynamic 3D Cyber Ambient Background Gradients */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-cyan-600/10 blur-[140px]" />
-        <div className="absolute top-[30%] right-[-10%] w-[45vw] h-[45vw] rounded-full bg-purple-600/10 blur-[150px]" />
-        <div className="absolute bottom-[-10%] left-[20%] w-[50vw] h-[50vw] rounded-full bg-blue-600/10 blur-[160px]" />
+    <div className="min-h-screen bg-[#090d16] text-slate-100 font-sans selection:bg-cyan-400 selection:text-black antialiased relative">
+      {/* Subtle Ambient Glows - Editorial & Calm */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <div className="absolute -top-32 -left-32 w-96 h-96 bg-cyan-500/10 rounded-full blur-[120px]" />
+        <div className="absolute top-1/3 -right-32 w-96 h-96 bg-indigo-500/10 rounded-full blur-[140px]" />
+        <div className="absolute bottom-10 left-1/4 w-80 h-80 bg-blue-500/10 rounded-full blur-[130px]" />
       </div>
 
-      {/* Navigation */}
-      <nav className="fixed top-0 w-full z-50 bg-[#030712]/85 backdrop-blur-xl border-b border-white/10 shadow-2xl shadow-cyan-950/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-          <a href="#about" className="flex items-center gap-3 group focus:outline-none">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 via-indigo-500 to-purple-600 p-[2px] transition-transform duration-300 group-hover:scale-110 shadow-lg shadow-cyan-500/25">
-              <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center font-mono font-bold text-cyan-400 text-sm">
-                DT
-              </div>
-            </div>
-            <div>
-              <div className="font-mono font-bold text-base tracking-wide text-white group-hover:text-cyan-400 transition-colors">
-                DHARMENDER THAKUR<span className="text-cyan-400">.PHD</span>
-              </div>
-              <div className="text-[11px] font-mono text-cyan-400/80 tracking-widest uppercase">
-                Data Scientist & Engineer
-              </div>
-            </div>
+      {/* Simplified Editorial Navigation */}
+      <header className="sticky top-0 z-50 bg-[#090d16]/80 backdrop-blur-md border-b border-white/5 transition-all">
+        <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
+          <a href="#hero" className="flex items-center gap-3 group">
+            <span className="font-bold tracking-tight text-white text-base group-hover:text-cyan-400 transition-colors">
+              {PROFILE.name.toUpperCase()}
+            </span>
+            <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-950/60 border border-emerald-500/30 text-[11px] font-mono text-emerald-400">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              Available
+            </span>
           </a>
 
-          <div className="hidden md:flex items-center gap-7 text-xs font-mono uppercase tracking-widest text-slate-400">
-            <a href="#about" className="hover:text-cyan-400 transition-colors">About</a>
-            <a href="#projects" className="hover:text-cyan-400 transition-colors">Projects</a>
-            <a href="#pipeline" className="hover:text-cyan-400 transition-colors">Architecture</a>
-            <a href="#skills" className="hover:text-cyan-400 transition-colors">Stack</a>
-            <a href="#experience" className="hover:text-cyan-400 transition-colors">Experience</a>
-          </div>
+          <nav className="hidden md:flex items-center gap-8 text-xs font-mono text-slate-400">
+            <a href="#about" className="hover:text-white transition-colors">About</a>
+            <a href="#experience" className="hover:text-white transition-colors">Experience</a>
+            <a href="#projects" className="hover:text-white transition-colors">Projects</a>
+            <a href="#skills" className="hover:text-white transition-colors">Skills</a>
+            <a href="#education" className="hover:text-white transition-colors">Education</a>
+            <a href="#contact" className="hover:text-white transition-colors">Contact</a>
+          </nav>
 
           <div className="flex items-center gap-3">
-            {/* Direct GitHub Profile Link */}
-            <a 
-              href={PROFILE.githubUrl}
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-cyan-400 border border-white/10 hover:border-cyan-500/40 transition-all shadow-md"
-              title="Visit Dharmender's GitHub Profile (@dharmender12)"
-            >
-              <Github size={18} />
-            </a>
-
-            {/* LinkedIn Profile */}
-            <a 
-              href={PROFILE.linkedinUrl}
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="p-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-blue-400 border border-white/10 hover:border-blue-500/40 transition-all shadow-md"
-              title="Connect on LinkedIn"
-            >
-              <Linkedin size={18} />
-            </a>
-
-            {/* Contact Action Button */}
-            <a 
-              href={`mailto:${PROFILE.email}`}
-              className="hidden sm:inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white text-xs font-mono font-bold uppercase tracking-wider rounded-xl shadow-lg shadow-cyan-500/25 transition-all active:scale-95"
-            >
-              <Mail size={14} />
-              <span>Contact</span>
-            </a>
-          </div>
-        </div>
-      </nav>
-
-      {/* Hero Section with 3D Data Universe Canvas */}
-      <Section id="about" className="pt-32 pb-20 lg:pt-36 lg:pb-24">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
-          {/* Left Hero Content */}
-          <div className="lg:col-span-6 space-y-6">
-            <motion.div
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="space-y-3"
-            >
-              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-950/70 border border-cyan-500/30 text-cyan-400 text-xs font-mono uppercase tracking-widest shadow-lg shadow-cyan-950/50">
-                <span className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
-                <span>PhD Astronomy // Data Science & Engineering</span>
-              </div>
-
-              <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight leading-[1.1] text-white">
-                Bridging <span className="gradient-text-3d">Astrophysical</span> Precision with <span className="text-cyan-400">Business</span> Intelligence.
-              </h1>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
-              className="text-slate-300 text-sm sm:text-base leading-relaxed space-y-3 font-normal"
-            >
-              <p>
-                I am <strong>Dr. Dharmender Thakur</strong>, a researcher transitioning high-dimensional statistical physics 
-                and astronomical spectroscopy into enterprise-grade <strong>Machine Learning</strong> and <strong>Big Data Engineering</strong>.
-              </p>
-              <p className="text-slate-400 text-xs sm:text-sm">
-                From analyzing 500GB+ deep-space spectral signals using Bayesian inference to engineering scalable predictive inventory systems, 
-                I deliver robust data pipelines, neural models, and automated analytical solutions.
-              </p>
-            </motion.div>
-
-            {/* Quick Metrics Bar */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.3 }}
-              className="grid grid-cols-3 gap-3 pt-2"
-            >
-              <div className="p-3.5 rounded-2xl bg-slate-900/80 border border-white/5 backdrop-blur-md">
-                <div className="text-xl sm:text-2xl font-bold font-mono text-cyan-400">500GB+</div>
-                <div className="text-[10px] font-mono uppercase text-slate-400 tracking-wider">Telemetry Processed</div>
-              </div>
-              <div className="p-3.5 rounded-2xl bg-slate-900/80 border border-white/5 backdrop-blur-md">
-                <div className="text-xl sm:text-2xl font-bold font-mono text-purple-400">98%</div>
-                <div className="text-[10px] font-mono uppercase text-slate-400 tracking-wider">Modeling Precision</div>
-              </div>
-              <div className="p-3.5 rounded-2xl bg-slate-900/80 border border-white/5 backdrop-blur-md">
-                <div className="text-xl sm:text-2xl font-bold font-mono text-emerald-400">27+</div>
-                <div className="text-[10px] font-mono uppercase text-slate-400 tracking-wider">GitHub Projects</div>
-              </div>
-            </motion.div>
-
-            {/* Social & Contact Bar */}
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4 }}
-              className="flex flex-wrap items-center gap-4 pt-2"
-            >
-              <a 
-                href={PROFILE.githubUrl} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-cyan-500/40 text-cyan-300 font-mono text-xs font-semibold flex items-center gap-2 shadow-lg shadow-cyan-950/30 hover:border-cyan-400 transition-all"
-              >
-                <Github size={16} />
-                <span>GitHub Profile (@dharmender12)</span>
-                <ExternalLink size={12} className="opacity-70" />
-              </a>
-
-              <a 
-                href={PROFILE.linkedinUrl} 
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-white/10 text-slate-300 hover:text-blue-400 font-mono text-xs font-semibold flex items-center gap-2 transition-all"
-              >
-                <Linkedin size={16} />
-                <span>LinkedIn</span>
-              </a>
-
-              <button
-                type="button"
-                onClick={handleCopyEmail}
-                className="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-white/10 text-slate-300 hover:text-emerald-400 font-mono text-xs font-semibold flex items-center gap-2 transition-all cursor-pointer"
-                title="Copy email to clipboard"
-              >
-                {copiedEmail ? <Check size={16} className="text-emerald-400" /> : <Copy size={16} />}
-                <span>{copiedEmail ? "Copied!" : "Copy Email"}</span>
-              </button>
-            </motion.div>
-          </div>
-          
-          {/* Right Hero: Real-time 3D Data Universe Canvas */}
-          <div className="lg:col-span-6 relative">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6 }}
-              className="relative w-full h-[440px] sm:h-[500px] rounded-3xl overflow-hidden border border-cyan-500/30 shadow-[0_0_50px_rgba(6,182,212,0.15)] bg-slate-950/70 backdrop-blur-xl"
-            >
-              <ErrorBoundary>
-                <DataUniverseCanvas />
-              </ErrorBoundary>
-            </motion.div>
-          </div>
-        </div>
-      </Section>
-
-      <div className="section-divider" />
-
-      {/* Interactive 3D End-to-End Pipeline Section */}
-      <Section id="pipeline">
-        <DataPipeline3D />
-      </Section>
-
-      <div className="section-divider" />
-
-      {/* Projects & Repositories Section */}
-      <Section id="projects">
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10">
-          <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-cyan-400 text-xs font-mono uppercase tracking-widest">
-              <Code2 className="w-3.5 h-3.5" />
-              <span>Project Matrix</span>
-            </div>
-            <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-              Case Studies & <span className="gradient-text-3d">GitHub Repos</span>
-            </h2>
-            <p className="text-slate-400 text-xs sm:text-sm max-w-xl">
-              Explore production applications, deep learning notebooks, and real-time synchronized repositories directly connected to GitHub (<strong>@dharmender12</strong>).
-            </p>
-          </div>
-
-          {/* Tab Selector: Featured vs Live GitHub */}
-          <div className="flex items-center gap-2 bg-slate-900/90 p-1.5 rounded-2xl border border-white/10 shadow-xl">
-            <button
-              onClick={() => setActiveTab('featured')}
-              className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-mono font-semibold transition-all cursor-pointer flex items-center gap-2 ${
-                activeTab === 'featured'
-                  ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-lg shadow-cyan-500/25'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              <Sparkles size={14} />
-              <span>Featured ({FEATURED_PROJECTS.length})</span>
-            </button>
-
-            <button
-              onClick={() => setActiveTab('github')}
-              className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-mono font-semibold transition-all cursor-pointer flex items-center gap-2 ${
-                activeTab === 'github'
-                  ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg shadow-purple-500/25'
-                  : 'text-slate-400 hover:text-white'
-              }`}
-            >
-              <Github size={14} />
-              <span>Live GitHub ({githubRepos.length})</span>
-            </button>
-          </div>
-        </div>
-
-        {/* Tab 1: Featured Projects */}
-        {activeTab === 'featured' && (
-          <div className="space-y-8">
-            {/* Search and Category Filter */}
-            <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between bg-slate-900/50 p-3 rounded-2xl border border-white/5">
-              <div className="relative w-full md:w-80 group">
-                <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-cyan-400 transition-colors" size={16} />
-                <input 
-                  type="text"
-                  placeholder="Filter by keyword (e.g. PyTorch, SQL)..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full pl-10 pr-10 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-xs font-mono text-slate-200 placeholder:text-slate-500 focus:outline-none focus:border-cyan-400 transition-all"
-                />
-                {searchQuery && (
-                  <button 
-                    onClick={() => setSearchQuery("")}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
-                  >
-                    <X size={14} />
-                  </button>
-                )}
-              </div>
-
-              <div className="flex flex-wrap gap-1.5">
-                {CATEGORIES.map((cat) => (
-                  <button
-                    key={cat}
-                    onClick={() => setActiveCategory(cat)}
-                    className={cn(
-                      "px-3.5 py-1.5 text-xs font-mono rounded-xl border transition-all cursor-pointer",
-                      activeCategory === cat 
-                        ? "bg-cyan-500/20 text-cyan-300 border-cyan-400/50 shadow-sm" 
-                        : "bg-slate-950/60 text-slate-400 border-white/5 hover:border-slate-700 hover:text-white"
-                    )}
-                  >
-                    {cat}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* 3D Cards Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredProjects.map((project) => {
-                const Icon = project.icon;
-                return (
-                  <Card3D 
-                    key={project.title}
-                    className="rounded-2xl border border-white/10 bg-slate-900/70 p-6 flex flex-col justify-between hover:border-cyan-400/50 hover:shadow-2xl hover:shadow-cyan-500/10 transition-all"
-                  >
-                    <div>
-                      <div className="flex items-start justify-between mb-4">
-                        <div className="p-3 bg-cyan-950/60 border border-cyan-500/30 rounded-xl text-cyan-400 shadow-lg">
-                          <Icon size={22} />
-                        </div>
-                        <span className="text-[10px] font-mono uppercase tracking-widest px-2.5 py-1 rounded-md bg-slate-950 text-cyan-300 border border-cyan-500/20">
-                          {project.category}
-                        </span>
-                      </div>
-
-                      <h3 className="text-lg font-bold text-white mb-1">
-                        {project.title}
-                      </h3>
-                      {project.subtitle && (
-                        <div className="text-xs font-mono text-cyan-400/80 mb-3 font-medium">
-                          {project.subtitle}
-                        </div>
-                      )}
-                      <p className="text-xs text-slate-300 leading-relaxed mb-4 line-clamp-3">
-                        {project.description}
-                      </p>
-
-                      <div className="p-3 rounded-xl bg-slate-950/80 border border-white/5 mb-4">
-                        <div className="text-[10px] font-mono text-slate-400 uppercase mb-0.5">Key Impact</div>
-                        <div className="text-xs font-mono font-semibold text-emerald-400">{project.impact}</div>
-                      </div>
-                    </div>
-
-                    <div>
-                      <div className="flex flex-wrap gap-1.5 mb-5">
-                        {project.tools.map((tool) => (
-                          <span key={tool} className="px-2 py-0.5 bg-slate-950 border border-white/10 text-slate-300 text-[10px] font-mono rounded">
-                            {tool}
-                          </span>
-                        ))}
-                      </div>
-
-                      <div className="pt-3 border-t border-white/5 flex items-center justify-between">
-                        {project.githubUrl ? (
-                          <a 
-                            href={project.githubUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1.5 text-xs font-mono text-cyan-400 hover:text-cyan-200 transition-colors"
-                          >
-                            <Github size={14} />
-                            <span>Source Code</span>
-                            <ExternalLink size={12} />
-                          </a>
-                        ) : <div />}
-
-                        {project.liveUrl && (
-                          <a 
-                            href={project.liveUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 text-[11px] font-mono px-2.5 py-1 rounded-lg bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-300 border border-cyan-500/30 transition-colors"
-                          >
-                            <span>Live App</span>
-                            <ExternalLink size={11} />
-                          </a>
-                        )}
-                      </div>
-                    </div>
-                  </Card3D>
-                );
-              })}
-            </div>
-          </div>
-        )}
-
-        {/* Tab 2: Live GitHub Repositories (Synchronized) */}
-        {activeTab === 'github' && (
-          <div className="space-y-6">
-            <div className="p-4 rounded-2xl bg-slate-900/80 border border-cyan-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <div className="w-3 h-3 rounded-full bg-emerald-400 animate-pulse" />
-                <div>
-                  <div className="text-xs sm:text-sm text-slate-200 font-mono font-medium">
-                    Connected to GitHub profile: <a href={PROFILE.githubUrl} target="_blank" rel="noopener noreferrer" className="text-cyan-400 font-bold hover:underline">@{PROFILE.githubUsername}</a>
-                  </div>
-                  {syncTimestamp && (
-                    <div className="text-[11px] font-mono text-slate-400">
-                      {isRateLimited ? "Showing synchronized repository snapshot" : `Last API sync: ${syncTimestamp}`}
-                    </div>
-                  )}
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={fetchGitHubRepos}
-                  disabled={isLoadingRepos}
-                  className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-white/10 text-xs font-mono font-medium flex items-center gap-2 transition-all cursor-pointer disabled:opacity-50"
-                  title="Resync with GitHub API"
-                >
-                  <RefreshCw className={`w-3.5 h-3.5 text-cyan-400 ${isLoadingRepos ? "animate-spin" : ""}`} />
-                  <span>{isLoadingRepos ? "Syncing..." : "Sync Repos"}</span>
-                </button>
-
-                <a 
-                  href={PROFILE.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-4 py-2 rounded-xl bg-cyan-600/20 hover:bg-cyan-600/30 text-cyan-300 border border-cyan-500/40 text-xs font-mono font-semibold flex items-center gap-1.5 transition-all"
-                >
-                  <Github size={14} />
-                  <span>Open GitHub</span>
-                  <ExternalLink size={12} />
-                </a>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {githubRepos.map((repo) => (
-                <Card3D 
-                  key={repo.name}
-                  className="rounded-2xl border border-white/10 bg-slate-900/60 p-6 flex flex-col justify-between hover:border-cyan-400/50 hover:shadow-xl hover:shadow-cyan-500/10 transition-all"
-                >
-                  <div>
-                    <div className="flex items-center justify-between gap-2 mb-3">
-                      <span className="font-mono text-xs font-bold text-cyan-400 truncate flex items-center gap-2">
-                        <Terminal size={14} className="text-cyan-400 shrink-0" />
-                        {repo.name}
-                      </span>
-                      {repo.language && (
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-950 text-slate-300 border border-white/10 shrink-0">
-                          {repo.language}
-                        </span>
-                      )}
-                    </div>
-
-                    <p className="text-xs text-slate-300 line-clamp-3 leading-relaxed mb-4 min-h-[3rem]">
-                      {repo.description || "Project repository code, documentation, and analysis workflows."}
-                    </p>
-                  </div>
-
-                  <div className="pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-slate-400">
-                    <div className="flex items-center gap-3">
-                      <span className="flex items-center gap-1 text-slate-300">
-                        <Star size={13} className="text-amber-400 fill-amber-400/20" />
-                        <span>{repo.stargazers_count ?? 0}</span>
-                      </span>
-                      <span className="flex items-center gap-1 text-slate-300">
-                        <GitFork size={13} className="text-indigo-400" />
-                        <span>{repo.forks_count ?? 0}</span>
-                      </span>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                      {repo.homepage && (
-                        <a 
-                          href={repo.homepage}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="p-1.5 rounded-lg bg-cyan-950/80 hover:bg-cyan-900 text-cyan-300 border border-cyan-500/30 transition-colors"
-                          title="Open Live Deployment"
-                        >
-                          <ExternalLink size={12} />
-                        </a>
-                      )}
-                      <a 
-                        href={repo.html_url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 border border-white/10 flex items-center gap-1 transition-colors"
-                        title="View on GitHub"
-                      >
-                        <Github size={12} />
-                        <span>Repo</span>
-                      </a>
-                    </div>
-                  </div>
-                </Card3D>
-              ))}
-            </div>
-          </div>
-        )}
-      </Section>
-
-      <div className="section-divider" />
-
-      {/* Skills & Technical Competencies Section */}
-      <Section id="skills" className="rounded-[2.5rem] bg-slate-900/50 border border-white/10 p-8 sm:p-14">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-          <div className="lg:col-span-4 space-y-4">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-cyan-400 text-xs font-mono uppercase tracking-widest">
-              <Layers className="w-3.5 h-3.5" />
-              <span>Competency Stack</span>
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
-              Data Science & Engineering Rigor
-            </h2>
-            <p className="text-slate-400 text-xs sm:text-sm leading-relaxed">
-              Combining the empirical statistical standards of doctorate astronomy research with scalable industry-proven tooling.
-            </p>
-          </div>
-          
-          <div className="lg:col-span-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Card3D className="p-6 rounded-2xl bg-slate-950/70 border border-white/10 space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="p-2.5 rounded-xl bg-cyan-600/20 text-cyan-400 border border-cyan-500/30">
-                  <BrainCircuit size={20} />
-                </div>
-                <h3 className="text-sm font-bold uppercase tracking-wider text-white">Machine Learning</h3>
-              </div>
-              <ul className="space-y-2 text-xs font-mono text-slate-300">
-                {['Python (NumPy, Pandas, Scipy)', 'PyTorch & TensorFlow', 'XGBoost & Random Forests', 'NLP & LLMs (LangChain, Groq)', 'Bayesian MCMC Modeling'].map(s => (
-                  <li key={s} className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
-                    <span>{s}</span>
-                  </li>
-                ))}
-              </ul>
-            </Card3D>
-
-            <Card3D className="p-6 rounded-2xl bg-slate-950/70 border border-white/10 space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="p-2.5 rounded-xl bg-purple-600/20 text-purple-400 border border-purple-500/30">
-                  <Database size={20} />
-                </div>
-                <h3 className="text-sm font-bold uppercase tracking-wider text-white">Data Engineering</h3>
-              </div>
-              <ul className="space-y-2 text-xs font-mono text-slate-300">
-                {['SQL (PostgreSQL, BigQuery)', 'Apache Spark & PySpark', 'ETL / ELT Pipelines', 'Kafka Stream Ingestion', 'Docker & Cloud Deployments'].map(s => (
-                  <li key={s} className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-purple-400" />
-                    <span>{s}</span>
-                  </li>
-                ))}
-              </ul>
-            </Card3D>
-
-            <Card3D className="p-6 rounded-2xl bg-slate-950/70 border border-white/10 space-y-4">
-              <div className="flex items-center gap-3">
-                <div className="p-2.5 rounded-xl bg-emerald-600/20 text-emerald-400 border border-emerald-500/30">
-                  <BarChart3 size={20} />
-                </div>
-                <h3 className="text-sm font-bold uppercase tracking-wider text-white">Analytics & BI</h3>
-              </div>
-              <ul className="space-y-2 text-xs font-mono text-slate-300">
-                {['Power BI & Tableau', 'A/B Testing & Hypothesis Test', 'Signal-to-Noise Ratio (SNR)', 'Exploratory Data Analysis', 'Executive Data Storytelling'].map(s => (
-                  <li key={s} className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                    <span>{s}</span>
-                  </li>
-                ))}
-              </ul>
-            </Card3D>
-          </div>
-        </div>
-      </Section>
-
-      <div className="section-divider" />
-
-      {/* Experience & Academic Track */}
-      <Section id="experience">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-          <div className="lg:col-span-4">
-            <div className="sticky top-28 space-y-3">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/60 border border-cyan-500/30 text-cyan-400 text-xs font-mono uppercase tracking-widest">
-                <FileText className="w-3.5 h-3.5" />
-                <span>Career Progression</span>
-              </div>
-              <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
-                Professional Experience
-              </h2>
-              <p className="text-slate-400 text-xs sm:text-sm">
-                Track record bridging data science instruction, scientific research pipelines, and enterprise projects.
-              </p>
-            </div>
-          </div>
-          
-          <div className="lg:col-span-8 space-y-8">
-            {/* Experience Item 1 */}
-            <div className="p-6 sm:p-8 rounded-2xl bg-slate-900/60 border border-white/10 space-y-4 hover:border-cyan-400/40 transition-colors">
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <div>
-                  <h3 className="text-lg font-bold text-white">Technical SME & Data Science Instructor</h3>
-                  <div className="text-cyan-400 text-xs font-mono font-medium">Allsoft Solution / IBM Certified Programs</div>
-                </div>
-                <span className="px-3 py-1 rounded-full bg-cyan-950 text-cyan-300 border border-cyan-500/30 text-[10px] font-mono">
-                  2022 — PRESENT
-                </span>
-              </div>
-              <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
-                Spearheading curriculum delivery and practical implementation cohorts in Python, SQL, Machine Learning, and Agentic AI workflows.
-              </p>
-              <ul className="space-y-2 text-xs text-slate-300 font-mono">
-                <li className="flex items-start gap-2">
-                  <Sparkles size={14} className="text-cyan-400 mt-0.5 shrink-0" />
-                  <span>Mentored 500+ professionals in Python, SQL querying, PySpark, and production ML pipelines.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Sparkles size={14} className="text-cyan-400 mt-0.5 shrink-0" />
-                  <span>Integrated real-world case studies in supply chain forecasting, anomaly detection, and LLM automation.</span>
-                </li>
-              </ul>
-            </div>
-
-            {/* Experience Item 2 */}
-            <div className="p-6 sm:p-8 rounded-2xl bg-slate-900/60 border border-white/10 space-y-4 hover:border-purple-400/40 transition-colors">
-              <div className="flex flex-wrap items-center justify-between gap-2">
-                <div>
-                  <h3 className="text-lg font-bold text-white">PhD Researcher (Observational Astronomy)</h3>
-                  <div className="text-purple-400 text-xs font-mono font-medium">Doctoral Research / Scientific Computing</div>
-                </div>
-                <span className="px-3 py-1 rounded-full bg-purple-950 text-purple-300 border border-purple-500/30 text-[10px] font-mono">
-                  2018 — 2022
-                </span>
-              </div>
-              <p className="text-slate-300 text-xs sm:text-sm leading-relaxed">
-                Executed computational reduction on multi-gigabyte spectroscopic observations from deep-space sky surveys. Applied Markov Chain Monte Carlo Bayesian methods to evaluate cosmic gas enrichment models.
-              </p>
-              <ul className="space-y-2 text-xs text-slate-300 font-mono">
-                <li className="flex items-start gap-2">
-                  <Sparkles size={14} className="text-purple-400 mt-0.5 shrink-0" />
-                  <span>Automated signal extraction and SNR calibration across 500GB+ raw FITS data files.</span>
-                </li>
-                <li className="flex items-start gap-2">
-                  <Sparkles size={14} className="text-purple-400 mt-0.5 shrink-0" />
-                  <span>Authored peer-reviewed research papers cited on Google Scholar and NASA ADS.</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </Section>
-
-      <div className="section-divider" />
-
-      {/* Contact Section */}
-      <Section id="contact" className="pb-28">
-        <div className="p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-slate-950 via-slate-900 to-cyan-950/40 border border-cyan-500/30 text-center space-y-6 shadow-2xl">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-950/80 border border-cyan-500/30 text-cyan-400 text-xs font-mono uppercase tracking-widest mx-auto">
-            <Zap className="w-3.5 h-3.5 text-cyan-400 animate-pulse" />
-            <span>Ready for Impact</span>
-          </div>
-
-          <h2 className="text-3xl sm:text-5xl font-extrabold text-white">
-            Let's Collaborate on Data Science & Engineering
-          </h2>
-
-          <p className="text-slate-300 text-xs sm:text-base max-w-2xl mx-auto leading-relaxed">
-            Open for Data Scientist, ML Engineer, and Data Engineering roles, advisory consulting, and technical leadership.
-          </p>
-
-          <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
-            <a 
-              href={`mailto:${PROFILE.email}`}
-              className="px-6 py-3 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-mono text-xs font-bold uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-cyan-500/25 transition-all"
-            >
-              <Mail size={16} />
-              <span>{PROFILE.email}</span>
-            </a>
-
-            <a 
-              href={PROFILE.githubUrl}
+            <a
+              href={PROFILE.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 hover:text-cyan-400 border border-white/10 font-mono text-xs font-semibold flex items-center gap-2 transition-all"
-            >
-              <Github size={16} />
-              <span>GitHub Profile</span>
-              <ExternalLink size={13} />
-            </a>
-
-            <a 
-              href={PROFILE.linkedinUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-6 py-3 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 hover:text-blue-400 border border-white/10 font-mono text-xs font-semibold flex items-center gap-2 transition-all"
-            >
-              <Linkedin size={16} />
-              <span>LinkedIn</span>
-              <ExternalLink size={13} />
-            </a>
-          </div>
-        </div>
-      </Section>
-
-      {/* Footer */}
-      <footer className="bg-[#02050e] border-t border-white/10 py-10 px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 text-xs font-mono text-slate-400">
-          <div>
-            <span className="font-bold text-white">DHARMENDER THAKUR</span>
-            <span className="text-cyan-400">.PHD</span>
-            <span className="mx-2 text-slate-600">|</span>
-            <span>Data Scientist & ML Engineer</span>
-          </div>
-
-          <div className="text-[11px] text-slate-500">
-            © 2026 BUILT_WITH_3D_PRECISION // ALL_RIGHTS_RESERVED
-          </div>
-
-          <div className="flex items-center gap-4">
-            <a 
-              href={PROFILE.githubUrl} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="hover:text-cyan-400 transition-colors"
+              className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-all"
               title="GitHub Profile"
             >
               <Github size={18} />
             </a>
-            <a 
-              href={PROFILE.linkedinUrl} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="hover:text-blue-400 transition-colors"
+            <a
+              href={PROFILE.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 rounded-xl text-slate-400 hover:text-blue-400 hover:bg-white/5 transition-all"
               title="LinkedIn Profile"
             >
               <Linkedin size={18} />
             </a>
-            <a 
-              href={`mailto:${PROFILE.email}`} 
-              className="hover:text-emerald-400 transition-colors"
-              title="Email"
+            <a
+              href={`mailto:${PROFILE.email}`}
+              className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white text-slate-950 hover:bg-cyan-400 hover:text-slate-950 text-xs font-semibold tracking-wide transition-all shadow-md active:scale-95"
             >
-              <Mail size={18} />
+              <span>Get in touch</span>
+              <ArrowUpRight size={14} />
             </a>
           </div>
         </div>
-      </footer>
+      </header>
+
+      <main className="max-w-6xl mx-auto px-6 relative z-10 space-y-28 pt-12 pb-24">
+        {/* Editorial Hero Section (Inspired by Dribbble clean typography & calm structure) */}
+        <section id="hero" className="pt-10 sm:pt-16 pb-8 space-y-8">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900 border border-white/10 text-xs font-mono text-cyan-300"
+          >
+            <Sparkles size={13} className="text-cyan-400" />
+            <span>Data & AI Professional // Client Enablement</span>
+          </motion.div>
+
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white leading-[1.08] max-w-4xl"
+          >
+            Translating complex <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-indigo-300 to-purple-400">Data & AI capability</span> into business-ready impact.
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-slate-300 text-base sm:text-lg max-w-2xl leading-relaxed font-normal"
+          >
+            {PROFILE.summary}
+          </motion.p>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="flex flex-wrap items-center gap-4 pt-2"
+          >
+            <a
+              href="#projects"
+              className="px-6 py-3 rounded-full bg-white text-slate-950 hover:bg-cyan-400 hover:text-slate-950 font-medium text-sm flex items-center gap-2 transition-all shadow-lg active:scale-95"
+            >
+              <span>Selected Projects</span>
+              <ArrowUpRight size={16} />
+            </a>
+            <a
+              href="#experience"
+              className="px-6 py-3 rounded-full bg-slate-900 hover:bg-slate-800 text-slate-200 border border-white/10 font-medium text-sm flex items-center gap-2 transition-all active:scale-95"
+            >
+              <span>Professional Experience</span>
+            </a>
+            <button
+              onClick={copyEmail}
+              className="px-5 py-3 rounded-full bg-transparent hover:bg-white/5 text-slate-400 hover:text-white font-mono text-xs flex items-center gap-2 transition-all cursor-pointer"
+            >
+              {copiedEmail ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
+              <span>{copiedEmail ? "Email Copied!" : PROFILE.email}</span>
+            </button>
+          </motion.div>
+
+          {/* Highlights Grid */}
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-8 border-t border-white/5"
+          >
+            <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5">
+              <div className="text-2xl font-bold font-mono text-white">EY</div>
+              <div className="text-xs text-slate-400 font-mono mt-0.5">Corporate Training Cohorts</div>
+            </div>
+            <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5">
+              <div className="text-2xl font-bold font-mono text-cyan-400">100+</div>
+              <div className="text-xs text-slate-400 font-mono mt-0.5">IBM Program Learners</div>
+            </div>
+            <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5">
+              <div className="text-2xl font-bold font-mono text-purple-400">1M+</div>
+              <div className="text-xs text-slate-400 font-mono mt-0.5">Tweets NLP Pipeline</div>
+            </div>
+            <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5">
+              <div className="text-2xl font-bold font-mono text-emerald-400">Ph.D.</div>
+              <div className="text-xs text-slate-400 font-mono mt-0.5">Astronomy Data Analytics</div>
+            </div>
+          </motion.div>
+        </section>
+
+        {/* Selected Projects Section */}
+        <section id="projects" className="space-y-8 scroll-mt-24">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/5 pb-4">
+            <div>
+              <span className="text-xs font-mono text-cyan-400 uppercase tracking-widest">Case Studies</span>
+              <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mt-1">
+                Featured Projects
+              </h2>
+            </div>
+            <a
+              href={PROFILE.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs font-mono text-slate-400 hover:text-cyan-400 flex items-center gap-1.5 transition-colors"
+            >
+              <span>View all on GitHub</span>
+              <ArrowUpRight size={14} />
+            </a>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {PROJECTS.map((project, idx) => (
+              <motion.div
+                key={project.title}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: idx * 0.1 }}
+                className="group p-7 rounded-2xl bg-white/[0.02] hover:bg-white/[0.04] border border-white/10 hover:border-cyan-500/40 transition-all duration-300 flex flex-col justify-between"
+              >
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-slate-900 text-cyan-300 border border-white/10">
+                      {project.subtitle}
+                    </span>
+                    <div className="flex items-center gap-2">
+                      {project.liveUrl && (
+                        <a 
+                          href={project.liveUrl} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+                          title="Open Live App"
+                        >
+                          <ArrowUpRight size={16} />
+                        </a>
+                      )}
+                      <a 
+                        href={project.githubUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+                        title="View GitHub Repository"
+                      >
+                        <Github size={16} />
+                      </a>
+                    </div>
+                  </div>
+
+                  <h3 className="text-xl font-bold text-white group-hover:text-cyan-300 transition-colors">
+                    {project.title}
+                  </h3>
+
+                  <p className="text-sm text-slate-400 leading-relaxed font-normal">
+                    {project.description}
+                  </p>
+                </div>
+
+                <div className="pt-6 mt-6 border-t border-white/5 space-y-3">
+                  <div className="flex items-center justify-between text-xs font-mono">
+                    <span className="text-slate-500">Key Outcome</span>
+                    <span className="text-emerald-400 font-semibold">{project.metric}</span>
+                  </div>
+
+                  <div className="flex flex-wrap gap-1.5">
+                    {project.tools.map(tool => (
+                      <span key={tool} className="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-900/80 text-slate-300 border border-white/5">
+                        {tool}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* Professional Experience Section */}
+        <section id="experience" className="space-y-8 scroll-mt-24">
+          <div className="border-b border-white/5 pb-4">
+            <span className="text-xs font-mono text-cyan-400 uppercase tracking-widest">Career History</span>
+            <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mt-1">
+              Professional Experience
+            </h2>
+          </div>
+
+          <div className="space-y-6">
+            {EXPERIENCES.map((exp, idx) => (
+              <motion.div
+                key={exp.role + exp.company}
+                initial={{ opacity: 0, y: 16 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: idx * 0.1 }}
+                className="p-8 rounded-2xl bg-white/[0.02] border border-white/10 hover:border-white/20 transition-all space-y-4"
+              >
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                  <div>
+                    <h3 className="text-xl font-bold text-white">
+                      {exp.role}
+                    </h3>
+                    <div className="text-sm text-cyan-400 font-medium mt-0.5">
+                      {exp.company}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <span className="text-[11px] font-mono px-2.5 py-1 rounded-full bg-slate-900 text-slate-300 border border-white/10">
+                      {exp.badge}
+                    </span>
+                    <span className="text-xs font-mono text-slate-500">
+                      {exp.period}
+                    </span>
+                  </div>
+                </div>
+
+                <ul className="space-y-2.5 text-sm text-slate-300">
+                  {exp.highlights.map((item, hIdx) => (
+                    <li key={hIdx} className="flex items-start gap-2.5 leading-relaxed">
+                      <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 mt-2 shrink-0" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="pt-4 border-t border-white/5 flex flex-wrap gap-2">
+                  {exp.skills.map(s => (
+                    <span key={s} className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-white/5 text-slate-400">
+                      {s}
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </section>
+
+        {/* Skills & Competencies Grid */}
+        <section id="skills" className="space-y-8 scroll-mt-24">
+          <div className="border-b border-white/5 pb-4">
+            <span className="text-xs font-mono text-cyan-400 uppercase tracking-widest">Capabilities</span>
+            <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mt-1">
+              Skills & Competencies
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {SKILL_DOMAINS.map((domain, idx) => {
+              const Icon = domain.icon;
+              return (
+                <motion.div
+                  key={domain.category}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: idx * 0.1 }}
+                  className="p-7 rounded-2xl bg-white/[0.02] border border-white/10 space-y-4"
+                >
+                  <div className="flex items-center gap-3">
+                    <div className="p-2.5 rounded-xl bg-slate-900 text-cyan-400 border border-white/10">
+                      <Icon size={18} />
+                    </div>
+                    <h3 className="text-base font-bold text-white">
+                      {domain.category}
+                    </h3>
+                  </div>
+
+                  <div className="flex flex-wrap gap-2 pt-1">
+                    {domain.items.map(item => (
+                      <span
+                        key={item}
+                        className="text-xs font-mono px-3 py-1.5 rounded-xl bg-slate-900/80 text-slate-300 border border-white/5 hover:border-cyan-400/40 hover:text-white transition-all"
+                      >
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* Education & Certifications Section */}
+        <section id="education" className="space-y-8 scroll-mt-24">
+          <div className="border-b border-white/5 pb-4">
+            <span className="text-xs font-mono text-cyan-400 uppercase tracking-widest">Credentials</span>
+            <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mt-1">
+              Education & Certifications
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            {/* Education List */}
+            <div className="lg:col-span-6 space-y-4">
+              <h3 className="text-sm font-mono text-slate-400 uppercase tracking-wider flex items-center gap-2">
+                <GraduationCap size={16} className="text-cyan-400" />
+                <span>Academic Degrees</span>
+              </h3>
+              <div className="space-y-3">
+                {EDUCATION.map(edu => (
+                  <div key={edu.degree} className="p-5 rounded-xl bg-white/[0.02] border border-white/5 space-y-1">
+                    <div className="flex items-center justify-between gap-2">
+                      <h4 className="text-sm font-bold text-white leading-snug">{edu.degree}</h4>
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-900 text-cyan-300 border border-white/10 shrink-0">
+                        {edu.status}
+                      </span>
+                    </div>
+                    <p className="text-xs text-slate-400">{edu.institution}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Certifications List */}
+            <div className="lg:col-span-6 space-y-4">
+              <h3 className="text-sm font-mono text-slate-400 uppercase tracking-wider flex items-center gap-2">
+                <Award size={16} className="text-purple-400" />
+                <span>Government & Industry Certifications</span>
+              </h3>
+              <div className="space-y-3">
+                {CERTIFICATIONS.map(cert => (
+                  <div key={cert.title} className="p-5 rounded-xl bg-white/[0.02] border border-white/5 space-y-1">
+                    <div className="flex items-center justify-between gap-2">
+                      <h4 className="text-sm font-bold text-white">{cert.title}</h4>
+                      <span className="text-[10px] font-mono text-purple-300 shrink-0">{cert.issuer}</span>
+                    </div>
+                    <p className="text-xs text-slate-400 leading-relaxed">{cert.detail}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Contact & Footer Section (Clean Editorial Call to Action) */}
+        <section id="contact" className="pt-12 scroll-mt-24">
+          <div className="p-8 sm:p-14 rounded-3xl bg-gradient-to-b from-white/[0.04] to-transparent border border-white/10 text-center space-y-6">
+            <span className="text-xs font-mono text-cyan-400 uppercase tracking-widest">Connect Directly</span>
+            
+            <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
+              Let's Discuss Data & AI Solutions.
+            </h2>
+            
+            <p className="text-slate-400 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
+              Open for Data & AI enablement roles, client solutions consulting, and technical leadership engagements.
+            </p>
+
+            <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
+              <a
+                href={`mailto:${PROFILE.email}`}
+                className="px-6 py-3 rounded-full bg-white text-slate-950 hover:bg-cyan-400 hover:text-slate-950 font-semibold text-xs font-mono uppercase tracking-wider flex items-center gap-2 transition-all shadow-md active:scale-95"
+              >
+                <Mail size={14} />
+                <span>{PROFILE.email}</span>
+              </a>
+
+              <button
+                onClick={copyPhone}
+                className="px-5 py-3 rounded-full bg-slate-900 hover:bg-slate-800 text-slate-200 border border-white/10 font-mono text-xs flex items-center gap-2 transition-all cursor-pointer"
+              >
+                {copiedPhone ? <Check size={14} className="text-emerald-400" /> : <Phone size={14} />}
+                <span>{copiedPhone ? "Phone Copied!" : PROFILE.phone}</span>
+              </button>
+
+              <a
+                href={PROFILE.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-5 py-3 rounded-full bg-slate-900 hover:bg-slate-800 text-slate-200 hover:text-blue-400 border border-white/10 font-mono text-xs flex items-center gap-2 transition-all"
+              >
+                <Linkedin size={14} />
+                <span>LinkedIn Profile</span>
+                <ArrowUpRight size={12} />
+              </a>
+            </div>
+
+            <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-white/5 text-xs font-mono text-slate-500">
+              <div>
+                <span>{PROFILE.name.toUpperCase()}</span>
+                <span className="mx-2">•</span>
+                <span>{PROFILE.location}</span>
+              </div>
+              <div>
+                © 2026 // DESIGNED_WITH_INTENTION
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
     </div>
   );
 }
