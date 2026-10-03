@@ -10,7 +10,6 @@ import {
   Github, 
   Linkedin, 
   Mail, 
-  Phone, 
   MapPin, 
   Check, 
   Copy, 
@@ -36,7 +35,6 @@ const PROFILE = {
   title: "Data & AI Professional",
   subtitle: "Client Solutions, Enablement & Business Development",
   email: "dharmender98thakur@gmail.com",
-  phone: "+91 8544713601",
   location: "Chandigarh, India",
   linkedin: "https://linkedin.com/in/dharmender-thakur1220",
   github: "https://github.com/dharmender12",
@@ -245,7 +243,6 @@ const CERTIFICATIONS = [
 export default function App() {
   const [isContactModalOpen, setIsContactModalOpen] = useState(false);
   const [copiedEmail, setCopiedEmail] = useState(false);
-  const [copiedPhone, setCopiedPhone] = useState(false);
 
   // In-Page Contact Form State
   const [formName, setFormName] = useState('');
@@ -258,12 +255,6 @@ export default function App() {
     navigator.clipboard.writeText(PROFILE.email);
     setCopiedEmail(true);
     setTimeout(() => setCopiedEmail(false), 2000);
-  };
-
-  const copyPhone = () => {
-    navigator.clipboard.writeText(PROFILE.phone);
-    setCopiedPhone(true);
-    setTimeout(() => setCopiedPhone(false), 2000);
   };
 
   const handleInPageSend = (e: React.FormEvent) => {
@@ -283,10 +274,6 @@ export default function App() {
     setTimeout(() => setFormStatus(null), 4500);
   };
 
-  const whatsappUrl = `https://wa.me/918544713601?text=${encodeURIComponent(
-    `Hi Dharmender, I visited your portfolio and would like to discuss Data & AI solutions / opportunities.`
-  )}`;
-
   return (
     <div className="relative min-h-screen bg-[#030014] text-zinc-100 font-sans selection:bg-violet-600 selection:text-white antialiased overflow-x-hidden">
       {/* 3D Space Background from sanidhyy/space-portfolio pattern */}
@@ -304,7 +291,6 @@ export default function App() {
         isOpen={isContactModalOpen}
         onClose={() => setIsContactModalOpen(false)}
         email={PROFILE.email}
-        phone={PROFILE.phone}
         linkedin={PROFILE.linkedin}
         github={PROFILE.github}
       />
@@ -762,120 +748,83 @@ export default function App() {
             </div>
 
             {/* Quick Action Interactive Cards */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 max-w-4xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto">
               {/* Email Direct */}
-              <div className="p-4 rounded-2xl bg-zinc-900/90 border border-zinc-800 space-y-2 flex flex-col justify-between">
+              <div className="p-5 rounded-2xl bg-zinc-900/90 border border-zinc-800 space-y-3 flex flex-col justify-between">
                 <div>
                   <div className="flex items-center justify-between text-xs text-zinc-400 font-mono">
                     <span className="flex items-center gap-1.5 text-violet-300">
-                      <Mail size={13} />
-                      Email
+                      <Mail size={14} />
+                      Email Direct
                     </span>
                     <button
                       onClick={copyEmail}
-                      className="text-[11px] hover:text-white flex items-center gap-1"
+                      className="text-[11px] text-zinc-400 hover:text-white flex items-center gap-1 px-2 py-0.5 rounded bg-zinc-800"
                     >
                       {copiedEmail ? <Check size={11} className="text-emerald-400" /> : <Copy size={11} />}
                       <span>{copiedEmail ? "Copied" : "Copy"}</span>
                     </button>
                   </div>
-                  <div className="text-xs font-semibold text-zinc-200 mt-1 truncate" title={PROFILE.email}>
+                  <div className="text-sm font-semibold text-zinc-200 mt-2 truncate" title={PROFILE.email}>
                     {PROFILE.email}
                   </div>
                 </div>
-                <div className="flex gap-1.5 pt-1">
+                <div className="flex gap-2 pt-1">
                   <a
                     href={`https://mail.google.com/mail/?view=cm&fs=1&to=${PROFILE.email}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 py-1.5 rounded-lg bg-violet-600 hover:bg-violet-500 text-white text-[11px] font-mono text-center transition-colors flex items-center justify-center gap-1"
+                    className="flex-1 py-2 rounded-lg bg-violet-600 hover:bg-violet-500 text-white text-xs font-mono text-center transition-colors flex items-center justify-center gap-1"
                   >
                     <span>Gmail Web</span>
-                    <ExternalLink size={10} />
+                    <ExternalLink size={11} />
                   </a>
                   <a
                     href={`mailto:${PROFILE.email}`}
-                    className="flex-1 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-[11px] font-mono text-center transition-colors"
+                    className="flex-1 py-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-mono text-center transition-colors"
                   >
                     Mail App
                   </a>
                 </div>
               </div>
 
-              {/* Phone & WhatsApp */}
-              <div className="p-4 rounded-2xl bg-zinc-900/90 border border-zinc-800 space-y-2 flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center justify-between text-xs text-zinc-400 font-mono">
-                    <span className="flex items-center gap-1.5 text-emerald-400">
-                      <Phone size={13} />
-                      Phone
-                    </span>
-                    <button
-                      onClick={copyPhone}
-                      className="text-[11px] hover:text-white flex items-center gap-1"
-                    >
-                      {copiedPhone ? <Check size={11} className="text-emerald-400" /> : <Copy size={11} />}
-                      <span>{copiedPhone ? "Copied" : "Copy"}</span>
-                    </button>
-                  </div>
-                  <div className="text-xs font-semibold text-zinc-200 mt-1">{PROFILE.phone}</div>
-                </div>
-                <div className="flex gap-1.5 pt-1">
-                  <a
-                    href={whatsappUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex-1 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-[11px] font-mono text-center transition-colors flex items-center justify-center gap-1"
-                  >
-                    <MessageSquare size={10} />
-                    <span>WhatsApp</span>
-                  </a>
-                  <a
-                    href={`tel:${PROFILE.phone.replace(/\s+/g, '')}`}
-                    className="flex-1 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-[11px] font-mono text-center transition-colors"
-                  >
-                    Call
-                  </a>
-                </div>
-              </div>
-
               {/* LinkedIn */}
-              <div className="p-4 rounded-2xl bg-zinc-900/90 border border-zinc-800 space-y-2 flex flex-col justify-between">
+              <div className="p-5 rounded-2xl bg-zinc-900/90 border border-zinc-800 space-y-3 flex flex-col justify-between">
                 <div>
                   <div className="text-xs text-zinc-400 font-mono flex items-center gap-1.5 text-blue-400">
-                    <Linkedin size={13} />
-                    LinkedIn
+                    <Linkedin size={14} />
+                    Professional Network
                   </div>
-                  <div className="text-xs font-semibold text-zinc-200 mt-1">/in/dharmender-thakur1220</div>
+                  <div className="text-sm font-semibold text-zinc-200 mt-2">/in/dharmender-thakur1220</div>
                 </div>
                 <a
                   href={PROFILE.linkedin}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-[11px] font-mono text-center transition-colors flex items-center justify-center gap-1"
+                  className="w-full py-2 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-mono text-center transition-colors flex items-center justify-center gap-1"
                 >
                   <span>Connect Profile</span>
-                  <ExternalLink size={10} />
+                  <ExternalLink size={11} />
                 </a>
               </div>
 
               {/* GitHub */}
-              <div className="p-4 rounded-2xl bg-zinc-900/90 border border-zinc-800 space-y-2 flex flex-col justify-between">
+              <div className="p-5 rounded-2xl bg-zinc-900/90 border border-zinc-800 space-y-3 flex flex-col justify-between">
                 <div>
                   <div className="text-xs text-zinc-400 font-mono flex items-center gap-1.5">
-                    <Github size={13} />
+                    <Github size={14} />
                     GitHub
                   </div>
-                  <div className="text-xs font-semibold text-zinc-200 mt-1">@dharmender12</div>
+                  <div className="text-sm font-semibold text-zinc-200 mt-2">@dharmender12</div>
                 </div>
                 <a
                   href={PROFILE.github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-[11px] font-mono text-center transition-colors flex items-center justify-center gap-1"
+                  className="w-full py-2 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-mono text-center transition-colors flex items-center justify-center gap-1"
                 >
                   <span>View Code</span>
-                  <ExternalLink size={10} />
+                  <ExternalLink size={11} />
                 </a>
               </div>
             </div>

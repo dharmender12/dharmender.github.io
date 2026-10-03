@@ -3,10 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { 
   X, 
   Mail, 
-  Phone, 
   Linkedin, 
   Github, 
-  MessageSquare, 
   Copy, 
   Check, 
   ExternalLink, 
@@ -18,7 +16,6 @@ interface ContactModalProps {
   isOpen: boolean;
   onClose: () => void;
   email: string;
-  phone: string;
   linkedin: string;
   github: string;
 }
@@ -27,13 +24,10 @@ export const ContactModal: React.FC<ContactModalProps> = ({
   isOpen,
   onClose,
   email,
-  phone,
   linkedin,
   github,
 }) => {
   const [copiedEmail, setCopiedEmail] = useState(false);
-  const [copiedPhone, setCopiedPhone] = useState(false);
-  const [copiedMessage, setCopiedMessage] = useState(false);
 
   // Form State
   const [name, setName] = useState('');
@@ -46,12 +40,6 @@ export const ContactModal: React.FC<ContactModalProps> = ({
     navigator.clipboard.writeText(email);
     setCopiedEmail(true);
     setTimeout(() => setCopiedEmail(false), 2000);
-  };
-
-  const handleCopyPhone = () => {
-    navigator.clipboard.writeText(phone);
-    setCopiedPhone(true);
-    setTimeout(() => setCopiedPhone(false), 2000);
   };
 
   const handleSendGmail = (e: React.FormEvent) => {
@@ -67,7 +55,6 @@ export const ContactModal: React.FC<ContactModalProps> = ({
 
     // Also copy message to clipboard so nothing is lost
     navigator.clipboard.writeText(`To: ${email}\nSubject: ${subject}\n\n${message}\n\nFrom: ${name} (${senderEmail})`);
-    setCopiedMessage(true);
     setStatus('Opened Gmail Web Composer & copied message draft to clipboard!');
     setTimeout(() => setStatus(null), 4000);
   };
@@ -80,10 +67,6 @@ export const ContactModal: React.FC<ContactModalProps> = ({
     window.location.href = `mailto:${email}?subject=${formattedSubject}&body=${formattedBody}`;
   };
 
-  const whatsappUrl = `https://wa.me/918544713601?text=${encodeURIComponent(
-    `Hi Dharmender, I visited your portfolio and would like to discuss Data & AI solutions / opportunities.`
-  )}`;
-
   return (
     <AnimatePresence>
       {isOpen && (
@@ -94,7 +77,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/70 backdrop-blur-md"
+            className="fixed inset-0 bg-black/75 backdrop-blur-md"
           />
 
           {/* Modal Container */}
@@ -114,7 +97,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                 </div>
                 <h3 className="text-2xl font-bold tracking-tight text-white">Get in Touch</h3>
                 <p className="text-sm text-zinc-400">
-                  Choose how you'd like to connect, or send a pre-filled message directly.
+                  Send a message directly via Gmail, or connect on professional channels.
                 </p>
               </div>
 
@@ -165,63 +148,44 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                   </div>
                 </div>
 
-                {/* Phone & WhatsApp Card */}
+                {/* LinkedIn Card */}
                 <div className="p-4 rounded-2xl bg-zinc-900/80 border border-zinc-800 hover:border-zinc-700 transition-all flex flex-col justify-between space-y-3">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-mono text-zinc-400 flex items-center gap-1.5">
-                      <Phone size={13} className="text-emerald-400" />
-                      Phone & WhatsApp
+                    <span className="text-xs font-mono text-zinc-400 flex items-center gap-1.5 text-blue-400">
+                      <Linkedin size={13} />
+                      LinkedIn Profile
                     </span>
-                    <button
-                      onClick={handleCopyPhone}
-                      className="px-2 py-1 rounded bg-zinc-800 hover:bg-zinc-700 text-[11px] font-mono text-zinc-300 flex items-center gap-1 transition-colors"
-                    >
-                      {copiedPhone ? <Check size={11} className="text-emerald-400" /> : <Copy size={11} />}
-                      <span>{copiedPhone ? "Copied" : "Copy"}</span>
-                    </button>
+                    <span className="text-[11px] font-mono text-zinc-500">Verified</span>
                   </div>
-                  <div className="text-sm font-semibold text-zinc-200 truncate">{phone}</div>
-                  <div className="flex gap-2 pt-1">
+                  <div className="text-sm font-semibold text-zinc-200 truncate">/in/dharmender-thakur1220</div>
+                  <div className="pt-1">
                     <a
-                      href={whatsappUrl}
+                      href={linkedin}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-medium text-center transition-colors flex items-center justify-center gap-1"
+                      className="w-full py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white text-xs font-medium text-center transition-colors flex items-center justify-center gap-1"
                     >
-                      <MessageSquare size={11} />
-                      <span>WhatsApp</span>
-                    </a>
-                    <a
-                      href={`tel:${phone.replace(/\s+/g, '')}`}
-                      className="flex-1 py-1.5 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-medium text-center transition-colors"
-                    >
-                      Call Direct
+                      <span>Connect on LinkedIn</span>
+                      <ExternalLink size={11} />
                     </a>
                   </div>
                 </div>
               </div>
 
-              {/* Socials Banner */}
-              <div className="flex flex-wrap gap-2 pt-1">
-                <a
-                  href={linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="px-3.5 py-2 rounded-xl bg-zinc-900 border border-zinc-800 hover:border-blue-500/50 hover:text-blue-400 text-zinc-300 text-xs font-mono flex items-center gap-2 transition-all"
-                >
-                  <Linkedin size={13} />
-                  <span>LinkedIn / in/dharmender-thakur1220</span>
-                  <ExternalLink size={11} className="opacity-60" />
-                </a>
+              {/* GitHub Link */}
+              <div className="flex items-center justify-between p-3.5 rounded-xl bg-zinc-900/60 border border-zinc-800">
+                <div className="flex items-center gap-2.5 text-xs font-mono text-zinc-300">
+                  <Github size={15} />
+                  <span>GitHub Profile: <strong>@dharmender12</strong></span>
+                </div>
                 <a
                   href={github}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-3.5 py-2 rounded-xl bg-zinc-900 border border-zinc-800 hover:border-zinc-600 text-zinc-300 text-xs font-mono flex items-center gap-2 transition-all"
+                  className="text-xs font-mono text-violet-400 hover:text-violet-300 flex items-center gap-1"
                 >
-                  <Github size={13} />
-                  <span>GitHub / @dharmender12</span>
-                  <ExternalLink size={11} className="opacity-60" />
+                  <span>Explore Repos</span>
+                  <ExternalLink size={11} />
                 </a>
               </div>
 
@@ -285,7 +249,7 @@ export const ContactModal: React.FC<ContactModalProps> = ({
                   <div className="flex flex-wrap items-center gap-3 pt-1">
                     <button
                       type="submit"
-                      className="px-5 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-medium text-xs font-mono flex items-center gap-2 transition-all shadow-lg shadow-violet-600/20 active:scale-95"
+                      className="px-5 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-500 text-white font-medium text-xs font-mono flex items-center gap-2 transition-all shadow-lg shadow-violet-600/20 active:scale-95 cursor-pointer"
                     >
                       <Send size={13} />
                       <span>Compose in Gmail (1-Click)</span>
