@@ -4,7 +4,7 @@
  */
 
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion } from 'motion/react';
 import { 
   ArrowUpRight, 
   Github, 
@@ -12,30 +12,22 @@ import {
   Mail, 
   Phone, 
   MapPin, 
-  ExternalLink, 
   Check, 
   Copy, 
-  Briefcase, 
   GraduationCap, 
   Award, 
-  Code2, 
   Sparkles, 
-  ChevronRight, 
-  Layers, 
-  TrendingUp, 
-  Database, 
-  MessageSquare, 
-  Cpu, 
-  BarChart3, 
   Users, 
-  Compass, 
-  FileText 
+  Code2, 
+  BarChart3, 
+  Terminal,
+  CircleDot
 } from 'lucide-react';
 
-// Resume Details grounded in the user's document
 const PROFILE = {
   name: "Dharmender Thakur",
-  title: "Data & AI Professional | Client Solutions, Enablement & Business Development",
+  title: "Data & AI Professional",
+  subtitle: "Client Solutions, Enablement & Business Development",
   email: "dharmender98thakur@gmail.com",
   phone: "+91 8544713601",
   location: "Chandigarh, India",
@@ -44,8 +36,24 @@ const PROFILE = {
   summary: "Data & AI professional with hands-on experience delivering technical training to university and corporate cohorts, including an ongoing EY engagement via Chitkara University and IBM Career Education Program training at Allsoft Solution. Skilled in machine learning, NLP, GenAI (LangChain), Apache Spark, GCP, Databricks and Power BI, with a proven ability to turn technical capability into clear, business-ready language for mixed audiences. Experienced in understanding client needs, tailoring content to them, presenting to stakeholders, and reporting on outcomes."
 };
 
+const MARQUEE_SKILLS = [
+  "Apache Spark",
+  "LangChain & GenAI",
+  "Databricks",
+  "GCP BigQuery",
+  "Power BI",
+  "PySpark",
+  "Machine Learning",
+  "Advanced SQL",
+  "Medallion Architecture",
+  "NLP Text Analytics",
+  "Client Enablement",
+  "Statistical Inference"
+];
+
 const EXPERIENCES = [
   {
+    index: "01",
     role: "Corporate Training Engagement",
     company: "EY",
     period: "Aug 2026 – Oct 2026",
@@ -57,6 +65,7 @@ const EXPERIENCES = [
     skills: ["Big Data Analytics", "Advanced Excel", "Business Translation", "Corporate Training"]
   },
   {
+    index: "02",
     role: "Data Science Instructor",
     company: "Allsoft Solution (IBM Career Education Program)",
     period: "Oct 2025 – Jul 2026",
@@ -66,9 +75,10 @@ const EXPERIENCES = [
       "Covered KPI analysis, Power BI dashboard creation, and translation of business problems into decision-ready analytical outputs.",
       "Coached learners on presenting data insights to non-technical audiences, mirroring the analyst-to-stakeholder handoff in client engagements."
     ],
-    skills: ["Python", "Power BI", "KPI Frameworks", "Client Enablement", "Mentorship"]
+    skills: ["Python", "Power BI", "KPI Frameworks", "Stakeholder Handoff", "Mentorship"]
   },
   {
+    index: "03",
     role: "Visiting Research Student - Data Analytics",
     company: "Indian Institute of Astrophysics (IIA)",
     period: "Apr 2025 – Sep 2025",
@@ -78,14 +88,15 @@ const EXPERIENCES = [
       "Produced analytical dashboards and research reports that translated complex technical findings into clear summaries for non-technical stakeholders.",
       "Applied hypothesis testing, regression and statistical methods to derive insights from structured and unstructured data."
     ],
-    skills: ["Data Pipelines", "Hypothesis Testing", "Spectroscopic Data", "Statistical Modeling", "Dashboards"]
+    skills: ["Data Pipelines", "Hypothesis Testing", "Spectroscopic Analytics", "Dashboards"]
   }
 ];
 
 const PROJECTS = [
   {
+    index: "01",
     title: "Supply Chain & Inventory Optimization Analytics",
-    subtitle: "Manufacturing & Logistics Decision Intelligence",
+    category: "Decision Intelligence",
     description: "Designed an analytics system evaluating shipment performance, supplier reliability and inventory efficiency for manufacturing and logistics decision-making. Built interactive Power BI dashboards tracking on-time delivery, inventory turnover, and supplier risk scores.",
     tools: ["Python", "SQL", "Power BI", "Supply Chain Analytics"],
     metric: "Turnover & Reliability Optimization",
@@ -93,8 +104,9 @@ const PROJECTS = [
     liveUrl: "https://supply-chain-analytics-app.vercel.app/"
   },
   {
+    index: "02",
     title: "Twitter Sentiment Analysis - Real-Time NLP Pipeline",
-    subtitle: "High-Volume Social Text Analytics",
+    category: "NLP & Streaming Analytics",
     description: "Processed 1M+ tweets end-to-end (ingestion, preprocessing, inference) at ~96% accuracy. Delivered sentiment insights, polarity distributions, and trend telemetry through structured reports and real-time dashboards.",
     tools: ["Python", "NLP", "TensorFlow", "Streamlit"],
     metric: "1M+ Tweets Processed / ~96% Accuracy",
@@ -102,16 +114,18 @@ const PROJECTS = [
     liveUrl: "https://end-to-end-twitter-sentiment-analysis.streamlit.app/"
   },
   {
+    index: "03",
     title: "Amazon Reviews Big Data Pipeline",
-    subtitle: "Medallion Architecture at Scale",
+    category: "Distributed Data Engineering",
     description: "Built a large-scale review-processing pipeline using Medallion Architecture (Bronze, Silver, Gold layers) for scalable, reliable data processing across multi-gigabyte e-commerce datasets.",
     tools: ["PySpark", "Apache Spark", "Scala", "Medallion ETL"],
     metric: "Multi-Layered Scalable Processing",
     githubUrl: "https://github.com/dharmender12"
   },
   {
+    index: "04",
     title: "Text-to-Math Solver (GenAI)",
-    subtitle: "Agentic Reasoning & Prompt Engineering",
+    category: "Agentic AI & Prompt Systems",
     description: "Built a GenAI application applying prompt-based reasoning to structured math problems and natural language querying, demonstrating practical hands-on GenAI application development with low-latency LLM inference.",
     tools: ["Python", "LangChain", "Groq Llama 3", "Streamlit"],
     metric: "Sub-Second Agentic Reasoning",
@@ -245,42 +259,35 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#090d16] text-slate-100 font-sans selection:bg-cyan-400 selection:text-black antialiased relative">
-      {/* Subtle Ambient Glows - Editorial & Calm */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-        <div className="absolute -top-32 -left-32 w-96 h-96 bg-cyan-500/10 rounded-full blur-[120px]" />
-        <div className="absolute top-1/3 -right-32 w-96 h-96 bg-indigo-500/10 rounded-full blur-[140px]" />
-        <div className="absolute bottom-10 left-1/4 w-80 h-80 bg-blue-500/10 rounded-full blur-[130px]" />
-      </div>
-
-      {/* Simplified Editorial Navigation */}
-      <header className="sticky top-0 z-50 bg-[#090d16]/80 backdrop-blur-md border-b border-white/5 transition-all">
+    <div className="min-h-screen bg-[#fafafa] text-zinc-900 font-sans selection:bg-zinc-900 selection:text-white antialiased">
+      {/* Editorial Navigation */}
+      <header className="sticky top-0 z-50 bg-[#fafafa]/90 backdrop-blur-md border-b border-zinc-200/80 transition-all">
         <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
           <a href="#hero" className="flex items-center gap-3 group">
-            <span className="font-bold tracking-tight text-white text-base group-hover:text-cyan-400 transition-colors">
+            <span className="font-extrabold tracking-tight text-zinc-950 text-base group-hover:text-zinc-600 transition-colors">
               {PROFILE.name.toUpperCase()}
             </span>
-            <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-950/60 border border-emerald-500/30 text-[11px] font-mono text-emerald-400">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              Available
+            <span className="hidden sm:inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200 text-[11px] font-mono text-emerald-700 font-medium">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              Available for Data & AI Roles
             </span>
           </a>
 
-          <nav className="hidden md:flex items-center gap-8 text-xs font-mono text-slate-400">
-            <a href="#about" className="hover:text-white transition-colors">About</a>
-            <a href="#experience" className="hover:text-white transition-colors">Experience</a>
-            <a href="#projects" className="hover:text-white transition-colors">Projects</a>
-            <a href="#skills" className="hover:text-white transition-colors">Skills</a>
-            <a href="#education" className="hover:text-white transition-colors">Education</a>
-            <a href="#contact" className="hover:text-white transition-colors">Contact</a>
+          <nav className="hidden md:flex items-center gap-8 text-xs font-mono text-zinc-600">
+            <a href="#about" className="hover:text-zinc-950 transition-colors">About</a>
+            <a href="#projects" className="hover:text-zinc-950 transition-colors">Projects</a>
+            <a href="#experience" className="hover:text-zinc-950 transition-colors">Experience</a>
+            <a href="#skills" className="hover:text-zinc-950 transition-colors">Skills</a>
+            <a href="#education" className="hover:text-zinc-950 transition-colors">Education</a>
+            <a href="#contact" className="hover:text-zinc-950 transition-colors">Contact</a>
           </nav>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2">
             <a
               href={PROFILE.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/5 transition-all"
+              className="p-2 rounded-full text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100 transition-all"
               title="GitHub Profile"
             >
               <Github size={18} />
@@ -289,123 +296,141 @@ export default function App() {
               href={PROFILE.linkedin}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2 rounded-xl text-slate-400 hover:text-blue-400 hover:bg-white/5 transition-all"
+              className="p-2 rounded-full text-zinc-600 hover:text-zinc-950 hover:bg-zinc-100 transition-all"
               title="LinkedIn Profile"
             >
               <Linkedin size={18} />
             </a>
             <a
               href={`mailto:${PROFILE.email}`}
-              className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-white text-slate-950 hover:bg-cyan-400 hover:text-slate-950 text-xs font-semibold tracking-wide transition-all shadow-md active:scale-95"
+              className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-zinc-950 text-white hover:bg-zinc-800 text-xs font-medium tracking-wide transition-all shadow-sm active:scale-95"
             >
               <span>Get in touch</span>
-              <ArrowUpRight size={14} />
+              <ArrowUpRight size={13} />
             </a>
           </div>
         </div>
       </header>
 
-      <main className="max-w-6xl mx-auto px-6 relative z-10 space-y-28 pt-12 pb-24">
-        {/* Editorial Hero Section (Inspired by Dribbble clean typography & calm structure) */}
-        <section id="hero" className="pt-10 sm:pt-16 pb-8 space-y-8">
+      {/* Main Container */}
+      <main className="max-w-6xl mx-auto px-6 relative space-y-24 pt-10 pb-28">
+        {/* Editorial Hero Section (Dymas Alfin Style: Clean, Monochromatic, Typographic) */}
+        <section id="hero" className="pt-8 sm:pt-14 pb-4 space-y-8">
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-900 border border-white/10 text-xs font-mono text-cyan-300"
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-zinc-100 border border-zinc-200 text-xs font-mono text-zinc-700"
           >
-            <Sparkles size={13} className="text-cyan-400" />
-            <span>Data & AI Professional // Client Enablement</span>
+            <CircleDot size={12} className="text-zinc-900" />
+            <span>Data & AI Professional • Enablement & Client Solutions</span>
           </motion.div>
 
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white leading-[1.08] max-w-4xl"
+            className="space-y-4 max-w-4xl"
           >
-            Translating complex <span className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-indigo-300 to-purple-400">Data & AI capability</span> into business-ready impact.
-          </motion.h1>
+            <h1 className="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-zinc-950 leading-[1.06]">
+              Turning technical capability into clear, <span className="underline decoration-zinc-300 underline-offset-8">business-ready</span> impact.
+            </h1>
+            <p className="text-lg sm:text-xl text-zinc-600 font-medium">
+              {PROFILE.title} — {PROFILE.subtitle}
+            </p>
+          </motion.div>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-slate-300 text-base sm:text-lg max-w-2xl leading-relaxed font-normal"
+            className="text-zinc-700 text-base sm:text-lg max-w-2xl leading-relaxed font-normal"
           >
             {PROFILE.summary}
           </motion.p>
 
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="flex flex-wrap items-center gap-4 pt-2"
+            className="flex flex-wrap items-center gap-3 pt-2"
           >
             <a
               href="#projects"
-              className="px-6 py-3 rounded-full bg-white text-slate-950 hover:bg-cyan-400 hover:text-slate-950 font-medium text-sm flex items-center gap-2 transition-all shadow-lg active:scale-95"
+              className="px-6 py-3 rounded-full bg-zinc-950 text-white hover:bg-zinc-800 font-medium text-sm flex items-center gap-2 transition-all shadow-md active:scale-95"
             >
               <span>Selected Projects</span>
-              <ArrowUpRight size={16} />
+              <ArrowUpRight size={15} />
             </a>
             <a
               href="#experience"
-              className="px-6 py-3 rounded-full bg-slate-900 hover:bg-slate-800 text-slate-200 border border-white/10 font-medium text-sm flex items-center gap-2 transition-all active:scale-95"
+              className="px-6 py-3 rounded-full bg-white hover:bg-zinc-100 text-zinc-900 border border-zinc-300 font-medium text-sm flex items-center gap-2 transition-all active:scale-95 shadow-sm"
             >
-              <span>Professional Experience</span>
+              <span>View Experience</span>
             </a>
             <button
               onClick={copyEmail}
-              className="px-5 py-3 rounded-full bg-transparent hover:bg-white/5 text-slate-400 hover:text-white font-mono text-xs flex items-center gap-2 transition-all cursor-pointer"
+              className="px-5 py-3 rounded-full bg-zinc-100 hover:bg-zinc-200 text-zinc-700 font-mono text-xs flex items-center gap-2 transition-all cursor-pointer border border-zinc-200"
             >
-              {copiedEmail ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
+              {copiedEmail ? <Check size={14} className="text-emerald-600" /> : <Copy size={14} />}
               <span>{copiedEmail ? "Email Copied!" : PROFILE.email}</span>
             </button>
           </motion.div>
 
-          {/* Highlights Grid */}
+          {/* Quick Metrics Editorial Strip */}
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-8 border-t border-white/5"
+            transition={{ duration: 0.7, delay: 0.4 }}
+            className="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-10 border-t border-zinc-200"
           >
-            <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5">
-              <div className="text-2xl font-bold font-mono text-white">EY</div>
-              <div className="text-xs text-slate-400 font-mono mt-0.5">Corporate Training Cohorts</div>
+            <div className="p-5 rounded-2xl bg-white border border-zinc-200 shadow-sm">
+              <div className="text-3xl font-extrabold font-mono text-zinc-950">EY</div>
+              <div className="text-xs text-zinc-500 font-mono mt-1">Corporate Training Engagement</div>
             </div>
-            <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5">
-              <div className="text-2xl font-bold font-mono text-cyan-400">100+</div>
-              <div className="text-xs text-slate-400 font-mono mt-0.5">IBM Program Learners</div>
+            <div className="p-5 rounded-2xl bg-white border border-zinc-200 shadow-sm">
+              <div className="text-3xl font-extrabold font-mono text-zinc-950">100+</div>
+              <div className="text-xs text-zinc-500 font-mono mt-1">Learners Coached (IBM Program)</div>
             </div>
-            <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5">
-              <div className="text-2xl font-bold font-mono text-purple-400">1M+</div>
-              <div className="text-xs text-slate-400 font-mono mt-0.5">Tweets NLP Pipeline</div>
+            <div className="p-5 rounded-2xl bg-white border border-zinc-200 shadow-sm">
+              <div className="text-3xl font-extrabold font-mono text-zinc-950">1M+</div>
+              <div className="text-xs text-zinc-500 font-mono mt-1">Tweets NLP Pipeline</div>
             </div>
-            <div className="p-4 rounded-2xl bg-white/[0.02] border border-white/5">
-              <div className="text-2xl font-bold font-mono text-emerald-400">Ph.D.</div>
-              <div className="text-xs text-slate-400 font-mono mt-0.5">Astronomy Data Analytics</div>
+            <div className="p-5 rounded-2xl bg-white border border-zinc-200 shadow-sm">
+              <div className="text-3xl font-extrabold font-mono text-zinc-950">Ph.D.</div>
+              <div className="text-xs text-zinc-500 font-mono mt-1">Astronomy Data Analytics (CUHP)</div>
             </div>
           </motion.div>
         </section>
 
-        {/* Selected Projects Section */}
+        {/* Infinite Marquee Strip (Clean Monochrome Animation) */}
+        <section className="overflow-hidden py-4 border-y border-zinc-200 bg-white -mx-6 px-6">
+          <div className="animate-marquee flex items-center gap-8 text-xs font-mono text-zinc-600 uppercase tracking-widest whitespace-nowrap">
+            {[...MARQUEE_SKILLS, ...MARQUEE_SKILLS].map((item, i) => (
+              <span key={i} className="flex items-center gap-6">
+                <span>{item}</span>
+                <span className="w-1.5 h-1.5 rounded-full bg-zinc-300" />
+              </span>
+            ))}
+          </div>
+        </section>
+
+        {/* Selected Projects (Dribbble Layout: Generous Cards, Clean Typography, Hover Animations) */}
         <section id="projects" className="space-y-8 scroll-mt-24">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/5 pb-4">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-zinc-200 pb-4">
             <div>
-              <span className="text-xs font-mono text-cyan-400 uppercase tracking-widest">Case Studies</span>
-              <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mt-1">
-                Featured Projects
+              <span className="text-xs font-mono text-zinc-500 uppercase tracking-widest">Portfolio</span>
+              <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-950 tracking-tight mt-1">
+                Featured Case Studies
               </h2>
             </div>
             <a
               href={PROFILE.github}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-xs font-mono text-slate-400 hover:text-cyan-400 flex items-center gap-1.5 transition-colors"
+              className="text-xs font-mono text-zinc-600 hover:text-zinc-950 flex items-center gap-1.5 transition-colors"
             >
-              <span>View all on GitHub</span>
+              <span>View all on GitHub (@dharmender12)</span>
               <ArrowUpRight size={14} />
             </a>
           </div>
@@ -418,12 +443,12 @@ export default function App() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: idx * 0.1 }}
-                className="group p-7 rounded-2xl bg-white/[0.02] hover:bg-white/[0.04] border border-white/10 hover:border-cyan-500/40 transition-all duration-300 flex flex-col justify-between"
+                className="group p-8 rounded-3xl bg-white hover:bg-zinc-50 border border-zinc-200 hover:border-zinc-900 transition-all duration-300 flex flex-col justify-between shadow-sm hover:shadow-xl"
               >
-                <div className="space-y-3">
+                <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-slate-900 text-cyan-300 border border-white/10">
-                      {project.subtitle}
+                    <span className="text-[11px] font-mono px-3 py-1 rounded-full bg-zinc-100 text-zinc-800 border border-zinc-200 font-medium">
+                      {project.category}
                     </span>
                     <div className="flex items-center gap-2">
                       {project.liveUrl && (
@@ -431,42 +456,42 @@ export default function App() {
                           href={project.liveUrl} 
                           target="_blank" 
                           rel="noopener noreferrer"
-                          className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+                          className="w-8 h-8 rounded-full bg-zinc-100 group-hover:bg-zinc-950 text-zinc-700 group-hover:text-white flex items-center justify-center transition-all"
                           title="Open Live App"
                         >
-                          <ArrowUpRight size={16} />
+                          <ArrowUpRight size={15} />
                         </a>
                       )}
                       <a 
                         href={project.githubUrl} 
                         target="_blank" 
                         rel="noopener noreferrer"
-                        className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-white/10 transition-colors"
+                        className="w-8 h-8 rounded-full bg-zinc-100 group-hover:bg-zinc-950 text-zinc-700 group-hover:text-white flex items-center justify-center transition-all"
                         title="View GitHub Repository"
                       >
-                        <Github size={16} />
+                        <Github size={15} />
                       </a>
                     </div>
                   </div>
 
-                  <h3 className="text-xl font-bold text-white group-hover:text-cyan-300 transition-colors">
+                  <h3 className="text-xl sm:text-2xl font-bold text-zinc-950 group-hover:text-zinc-800 transition-colors leading-tight">
                     {project.title}
                   </h3>
 
-                  <p className="text-sm text-slate-400 leading-relaxed font-normal">
+                  <p className="text-sm text-zinc-600 leading-relaxed font-normal">
                     {project.description}
                   </p>
                 </div>
 
-                <div className="pt-6 mt-6 border-t border-white/5 space-y-3">
+                <div className="pt-6 mt-6 border-t border-zinc-100 space-y-3">
                   <div className="flex items-center justify-between text-xs font-mono">
-                    <span className="text-slate-500">Key Outcome</span>
-                    <span className="text-emerald-400 font-semibold">{project.metric}</span>
+                    <span className="text-zinc-500">Business Impact</span>
+                    <span className="text-zinc-900 font-semibold">{project.metric}</span>
                   </div>
 
                   <div className="flex flex-wrap gap-1.5">
                     {project.tools.map(tool => (
-                      <span key={tool} className="text-[11px] font-mono px-2 py-0.5 rounded bg-slate-900/80 text-slate-300 border border-white/5">
+                      <span key={tool} className="text-[11px] font-mono px-2.5 py-1 rounded-lg bg-zinc-100 text-zinc-700 border border-zinc-200/60">
                         {tool}
                       </span>
                     ))}
@@ -479,14 +504,14 @@ export default function App() {
 
         {/* Professional Experience Section */}
         <section id="experience" className="space-y-8 scroll-mt-24">
-          <div className="border-b border-white/5 pb-4">
-            <span className="text-xs font-mono text-cyan-400 uppercase tracking-widest">Career History</span>
-            <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mt-1">
+          <div className="border-b border-zinc-200 pb-4">
+            <span className="text-xs font-mono text-zinc-500 uppercase tracking-widest">Career</span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-950 tracking-tight mt-1">
               Professional Experience
             </h2>
           </div>
 
-          <div className="space-y-6">
+          <div className="space-y-4">
             {EXPERIENCES.map((exp, idx) => (
               <motion.div
                 key={exp.role + exp.company}
@@ -494,39 +519,42 @@ export default function App() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: idx * 0.1 }}
-                className="p-8 rounded-2xl bg-white/[0.02] border border-white/10 hover:border-white/20 transition-all space-y-4"
+                className="p-8 rounded-3xl bg-white border border-zinc-200 hover:border-zinc-400 transition-all space-y-4 shadow-sm"
               >
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                  <div>
-                    <h3 className="text-xl font-bold text-white">
-                      {exp.role}
-                    </h3>
-                    <div className="text-sm text-cyan-400 font-medium mt-0.5">
-                      {exp.company}
+                  <div className="flex items-center gap-4">
+                    <span className="text-sm font-mono text-zinc-400 font-bold">{exp.index}</span>
+                    <div>
+                      <h3 className="text-xl font-bold text-zinc-950">
+                        {exp.role}
+                      </h3>
+                      <div className="text-sm font-medium text-zinc-600 mt-0.5">
+                        {exp.company}
+                      </div>
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className="text-[11px] font-mono px-2.5 py-1 rounded-full bg-slate-900 text-slate-300 border border-white/10">
+                    <span className="text-[11px] font-mono px-2.5 py-1 rounded-full bg-zinc-100 text-zinc-800 border border-zinc-200">
                       {exp.badge}
                     </span>
-                    <span className="text-xs font-mono text-slate-500">
+                    <span className="text-xs font-mono text-zinc-500">
                       {exp.period}
                     </span>
                   </div>
                 </div>
 
-                <ul className="space-y-2.5 text-sm text-slate-300">
+                <ul className="space-y-2.5 text-sm text-zinc-700 pt-2">
                   {exp.highlights.map((item, hIdx) => (
-                    <li key={hIdx} className="flex items-start gap-2.5 leading-relaxed">
-                      <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 mt-2 shrink-0" />
+                    <li key={hIdx} className="flex items-start gap-3 leading-relaxed">
+                      <span className="w-1.5 h-1.5 rounded-full bg-zinc-900 mt-2 shrink-0" />
                       <span>{item}</span>
                     </li>
                   ))}
                 </ul>
 
-                <div className="pt-4 border-t border-white/5 flex flex-wrap gap-2">
+                <div className="pt-4 border-t border-zinc-100 flex flex-wrap gap-2">
                   {exp.skills.map(s => (
-                    <span key={s} className="text-[11px] font-mono px-2.5 py-0.5 rounded-full bg-white/5 text-slate-400">
+                    <span key={s} className="text-[11px] font-mono px-2.5 py-1 rounded-full bg-zinc-100 text-zinc-600">
                       {s}
                     </span>
                   ))}
@@ -538,10 +566,10 @@ export default function App() {
 
         {/* Skills & Competencies Grid */}
         <section id="skills" className="space-y-8 scroll-mt-24">
-          <div className="border-b border-white/5 pb-4">
-            <span className="text-xs font-mono text-cyan-400 uppercase tracking-widest">Capabilities</span>
-            <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mt-1">
-              Skills & Competencies
+          <div className="border-b border-zinc-200 pb-4">
+            <span className="text-xs font-mono text-zinc-500 uppercase tracking-widest">Expertise</span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-950 tracking-tight mt-1">
+              Skills & Core Competencies
             </h2>
           </div>
 
@@ -555,13 +583,13 @@ export default function App() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.4, delay: idx * 0.1 }}
-                  className="p-7 rounded-2xl bg-white/[0.02] border border-white/10 space-y-4"
+                  className="p-8 rounded-3xl bg-white border border-zinc-200 space-y-4 shadow-sm"
                 >
                   <div className="flex items-center gap-3">
-                    <div className="p-2.5 rounded-xl bg-slate-900 text-cyan-400 border border-white/10">
+                    <div className="p-2.5 rounded-2xl bg-zinc-100 text-zinc-900 border border-zinc-200">
                       <Icon size={18} />
                     </div>
-                    <h3 className="text-base font-bold text-white">
+                    <h3 className="text-base font-bold text-zinc-950">
                       {domain.category}
                     </h3>
                   </div>
@@ -570,7 +598,7 @@ export default function App() {
                     {domain.items.map(item => (
                       <span
                         key={item}
-                        className="text-xs font-mono px-3 py-1.5 rounded-xl bg-slate-900/80 text-slate-300 border border-white/5 hover:border-cyan-400/40 hover:text-white transition-all"
+                        className="text-xs font-mono px-3 py-1.5 rounded-xl bg-zinc-50 text-zinc-800 border border-zinc-200 hover:border-zinc-950 hover:bg-zinc-900 hover:text-white transition-all cursor-default"
                       >
                         {item}
                       </span>
@@ -584,9 +612,9 @@ export default function App() {
 
         {/* Education & Certifications Section */}
         <section id="education" className="space-y-8 scroll-mt-24">
-          <div className="border-b border-white/5 pb-4">
-            <span className="text-xs font-mono text-cyan-400 uppercase tracking-widest">Credentials</span>
-            <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight mt-1">
+          <div className="border-b border-zinc-200 pb-4">
+            <span className="text-xs font-mono text-zinc-500 uppercase tracking-widest">Credentials</span>
+            <h2 className="text-3xl sm:text-4xl font-extrabold text-zinc-950 tracking-tight mt-1">
               Education & Certifications
             </h2>
           </div>
@@ -594,20 +622,20 @@ export default function App() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
             {/* Education List */}
             <div className="lg:col-span-6 space-y-4">
-              <h3 className="text-sm font-mono text-slate-400 uppercase tracking-wider flex items-center gap-2">
-                <GraduationCap size={16} className="text-cyan-400" />
+              <h3 className="text-sm font-mono text-zinc-600 uppercase tracking-wider flex items-center gap-2">
+                <GraduationCap size={16} className="text-zinc-950" />
                 <span>Academic Degrees</span>
               </h3>
               <div className="space-y-3">
                 {EDUCATION.map(edu => (
-                  <div key={edu.degree} className="p-5 rounded-xl bg-white/[0.02] border border-white/5 space-y-1">
+                  <div key={edu.degree} className="p-5 rounded-2xl bg-white border border-zinc-200 shadow-sm space-y-1">
                     <div className="flex items-center justify-between gap-2">
-                      <h4 className="text-sm font-bold text-white leading-snug">{edu.degree}</h4>
-                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-900 text-cyan-300 border border-white/10 shrink-0">
+                      <h4 className="text-sm font-bold text-zinc-950 leading-snug">{edu.degree}</h4>
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-zinc-100 text-zinc-800 border border-zinc-200 shrink-0">
                         {edu.status}
                       </span>
                     </div>
-                    <p className="text-xs text-slate-400">{edu.institution}</p>
+                    <p className="text-xs text-zinc-500">{edu.institution}</p>
                   </div>
                 ))}
               </div>
@@ -615,18 +643,18 @@ export default function App() {
 
             {/* Certifications List */}
             <div className="lg:col-span-6 space-y-4">
-              <h3 className="text-sm font-mono text-slate-400 uppercase tracking-wider flex items-center gap-2">
-                <Award size={16} className="text-purple-400" />
+              <h3 className="text-sm font-mono text-zinc-600 uppercase tracking-wider flex items-center gap-2">
+                <Award size={16} className="text-zinc-950" />
                 <span>Government & Industry Certifications</span>
               </h3>
               <div className="space-y-3">
                 {CERTIFICATIONS.map(cert => (
-                  <div key={cert.title} className="p-5 rounded-xl bg-white/[0.02] border border-white/5 space-y-1">
+                  <div key={cert.title} className="p-5 rounded-2xl bg-white border border-zinc-200 shadow-sm space-y-1">
                     <div className="flex items-center justify-between gap-2">
-                      <h4 className="text-sm font-bold text-white">{cert.title}</h4>
-                      <span className="text-[10px] font-mono text-purple-300 shrink-0">{cert.issuer}</span>
+                      <h4 className="text-sm font-bold text-zinc-950">{cert.title}</h4>
+                      <span className="text-[10px] font-mono text-zinc-600 shrink-0 font-medium">{cert.issuer}</span>
                     </div>
-                    <p className="text-xs text-slate-400 leading-relaxed">{cert.detail}</p>
+                    <p className="text-xs text-zinc-500 leading-relaxed">{cert.detail}</p>
                   </div>
                 ))}
               </div>
@@ -635,22 +663,22 @@ export default function App() {
         </section>
 
         {/* Contact & Footer Section (Clean Editorial Call to Action) */}
-        <section id="contact" className="pt-12 scroll-mt-24">
-          <div className="p-8 sm:p-14 rounded-3xl bg-gradient-to-b from-white/[0.04] to-transparent border border-white/10 text-center space-y-6">
-            <span className="text-xs font-mono text-cyan-400 uppercase tracking-widest">Connect Directly</span>
+        <section id="contact" className="pt-8 scroll-mt-24">
+          <div className="p-8 sm:p-16 rounded-3xl bg-zinc-950 text-white text-center space-y-6 shadow-2xl">
+            <span className="text-xs font-mono text-zinc-400 uppercase tracking-widest">Connect Directly</span>
             
             <h2 className="text-3xl sm:text-5xl font-extrabold text-white tracking-tight">
-              Let's Discuss Data & AI Solutions.
+              Let's build Data & AI solutions together.
             </h2>
             
-            <p className="text-slate-400 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
-              Open for Data & AI enablement roles, client solutions consulting, and technical leadership engagements.
+            <p className="text-zinc-300 text-sm sm:text-base max-w-xl mx-auto leading-relaxed">
+              Open for Data & AI enablement roles, client solutions consulting, and technical training leadership engagements.
             </p>
 
-            <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
+            <div className="flex flex-wrap items-center justify-center gap-3 pt-4">
               <a
                 href={`mailto:${PROFILE.email}`}
-                className="px-6 py-3 rounded-full bg-white text-slate-950 hover:bg-cyan-400 hover:text-slate-950 font-semibold text-xs font-mono uppercase tracking-wider flex items-center gap-2 transition-all shadow-md active:scale-95"
+                className="px-6 py-3.5 rounded-full bg-white text-zinc-950 hover:bg-zinc-200 font-semibold text-xs font-mono uppercase tracking-wider flex items-center gap-2 transition-all shadow-md active:scale-95"
               >
                 <Mail size={14} />
                 <span>{PROFILE.email}</span>
@@ -658,7 +686,7 @@ export default function App() {
 
               <button
                 onClick={copyPhone}
-                className="px-5 py-3 rounded-full bg-slate-900 hover:bg-slate-800 text-slate-200 border border-white/10 font-mono text-xs flex items-center gap-2 transition-all cursor-pointer"
+                className="px-5 py-3.5 rounded-full bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-700 font-mono text-xs flex items-center gap-2 transition-all cursor-pointer"
               >
                 {copiedPhone ? <Check size={14} className="text-emerald-400" /> : <Phone size={14} />}
                 <span>{copiedPhone ? "Phone Copied!" : PROFILE.phone}</span>
@@ -668,22 +696,33 @@ export default function App() {
                 href={PROFILE.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-5 py-3 rounded-full bg-slate-900 hover:bg-slate-800 text-slate-200 hover:text-blue-400 border border-white/10 font-mono text-xs flex items-center gap-2 transition-all"
+                className="px-5 py-3.5 rounded-full bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-700 font-mono text-xs flex items-center gap-2 transition-all"
               >
                 <Linkedin size={14} />
                 <span>LinkedIn Profile</span>
                 <ArrowUpRight size={12} />
               </a>
+
+              <a
+                href={PROFILE.github}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-5 py-3.5 rounded-full bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-700 font-mono text-xs flex items-center gap-2 transition-all"
+              >
+                <Github size={14} />
+                <span>GitHub (@dharmender12)</span>
+                <ArrowUpRight size={12} />
+              </a>
             </div>
 
-            <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-white/5 text-xs font-mono text-slate-500">
+            <div className="pt-10 flex flex-col sm:flex-row items-center justify-between gap-4 border-t border-zinc-800 text-xs font-mono text-zinc-400">
               <div>
                 <span>{PROFILE.name.toUpperCase()}</span>
                 <span className="mx-2">•</span>
                 <span>{PROFILE.location}</span>
               </div>
               <div>
-                © 2026 // DESIGNED_WITH_INTENTION
+                © 2026 // PERSONAL PORTFOLIO
               </div>
             </div>
           </div>
